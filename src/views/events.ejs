@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Événements | Multi-Billeterie</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="fas fa-ticket-alt me-2"></i>
+                Multi-Billeterie
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            <i class="fas fa-home me-1"></i>
+                            Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/events">
+                            <i class="fas fa-calendar-alt me-1"></i>
+                            Événements
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/providers">
+                            <i class="fas fa-building me-1"></i>
+                            Prestataires
+                        </a>
+                    </li>
+                </ul>
+                
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-1"></i>
+                            Mon compte
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/auth/login">
+                                <i class="fas fa-sign-in-alt me-2"></i>Connexion
+                            </a></li>
+                            <li><a class="dropdown-item" href="/auth/register">
+                                <i class="fas fa-user-plus me-2"></i>Inscription
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/dashboard">
+                                <i class="fas fa-tachometer-alt me-2"></i>Tableau de bord
+                            </a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="bg-primary text-white py-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="display-5 fw-bold mb-2">
+                        <i class="fas fa-calendar-alt me-2"></i>
+                        Découvrez tous les événements
+                    </h1>
+                    <p class="lead mb-0">
+                        Concerts, théâtres, spectacles, conférences... Trouvez l'événement parfait pour vous !
+                    </p>
+                </div>
+                <div class="col-lg-4 text-end">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="searchInput" placeholder="Rechercher un événement...">
+                        <button class="btn btn-light" type="button" id="searchButton">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container py-4">
+        <div class="row">
+            <!-- Filters Sidebar -->
+            <div class="col-lg-3 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-filter me-2"></i>
+                            Filtres
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Category Filter -->
+                        <div class="mb-4">
+                            <h6>Catégorie</h6>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="concert" id="cat-concert">
+                                <label class="form-check-label" for="cat-concert">
+                                    <i class="fas fa-music me-1"></i> Concerts
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="theatre" id="cat-theatre">
+                                <label class="form-check-label" for="cat-theatre">
+                                    <i class="fas fa-theater-masks me-1"></i> Théâtre
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="sport" id="cat-sport">
+                                <label class="form-check-label" for="cat-sport">
+                                    <i class="fas fa-futbol me-1"></i> Sport
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="conference" id="cat-conference">
+                                <label class="form-check-label" for="cat-conference">
+                                    <i class="fas fa-microphone me-1"></i> Conférences
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="festival" id="cat-festival">
+                                <label class="form-check-label" for="cat-festival">
+                                    <i class="fas fa-glass-cheers me-1"></i> Festivals
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Date Filter -->
+                        <div class="mb-4">
+                            <h6>Date</h6>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="dateFilter" value="today" id="date-today">
+                                <label class="form-check-label" for="date-today">
+                                    Aujourd'hui
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="dateFilter" value="week" id="date-week">
+                                <label class="form-check-label" for="date-week">
+                                    Cette semaine
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="dateFilter" value="month" id="date-month">
+                                <label class="form-check-label" for="date-month">
+                                    Ce mois-ci
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="dateFilter" value="all" id="date-all" checked>
+                                <label class="form-check-label" for="date-all">
+                                    Toutes les dates
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Price Filter -->
+                        <div class="mb-4">
+                            <h6>Prix</h6>
+                            <div class="range-slider">
+                                <input type="range" class="form-range" id="priceRange" min="0" max="200" value="200">
+                                <div class="d-flex justify-content-between">
+                                    <small>0€</small>
+                                    <small id="maxPrice">200€</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Location Filter -->
+                        <div class="mb-4">
+                            <h6>Ville</h6>
+                            <select class="form-select" id="cityFilter">
+                                <option value="">Toutes les villes</option>
+                                <option value="paris">Paris</option>
+                                <option value="lyon">Lyon</option>
+                                <option value="marseille">Marseille</option>
+                                <option value="toulouse">Toulouse</option>
+                                <option value="nice">Nice</option>
+                            </select>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="button" class="btn btn-primary" id="applyFilters">
+                                <i class="fas fa-search me-2"></i>
+                                Appliquer les filtres
+                            </button>
+                        </div>
+                        
+                        <div class="d-grid mt-2">
+                            <button type="button" class="btn btn-outline-secondary" id="clearFilters">
+                                <i class="fas fa-times me-2"></i>
+                                Effacer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Events List -->
+            <div class="col-lg-9">
+                <!-- Sort and View Options -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <span class="text-muted" id="resultsCount">Chargement...</span>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <select class="form-select form-select-sm" id="sortBy" style="width: auto;">
+                            <option value="date">Trier par date</option>
+                            <option value="price">Trier par prix</option>
+                            <option value="popularity">Trier par popularité</option>
+                            <option value="name">Trier par nom</option>
+                        </select>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-outline-secondary btn-sm active" id="gridView">
+                                <i class="fas fa-th"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm" id="listView">
+                                <i class="fas fa-list"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Events Container -->
+                <div id="eventsContainer">
+                    <!-- Loading -->
+                    <div class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Chargement des événements...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <nav aria-label="Navigation des événements" class="mt-4">
+                    <ul class="pagination justify-content-center" id="pagination">
+                        <!-- Pagination will be generated by JavaScript -->
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script>
+        let currentPage = 1;
+        let currentView = 'grid';
+        let allEvents = [];
+
+        // Mock events data (since we don't have MongoDB)
+        const mockEvents = [
+            {
+                id: '1',
+                title: 'Festival de Jazz de Paris',
+                description: 'Un festival de jazz exceptionnel avec les plus grands artistes internationaux.',
+                category: 'concert',
+                dateTime: {
+                    start: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+                    end: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000 + 4 * 60 * 60 * 1000)
+                },
+                venue: {
+                    name: 'Salle Pleyel',
+                    address: { city: 'Paris' }
+                },
+                ticketTypes: [
+                    { name: 'Standard', price: 45, quantityAvailable: 100 },
+                    { name: 'VIP', price: 85, quantityAvailable: 20 }
+                ],
+                provider: { name: 'Music Events Paris', logo: '' },
+                images: [{ url: '/images/placeholder-concert.jpg', isPrimary: true }]
+            },
+            {
+                id: '2',
+                title: 'Le Misanthrope - Comédie Française',
+                description: 'La célèbre pièce de Molière dans une mise en scène moderne.',
+                category: 'theatre',
+                dateTime: {
+                    start: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
+                    end: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000 + 2.5 * 60 * 60 * 1000)
+                },
+                venue: {
+                    name: 'Comédie Française',
+                    address: { city: 'Paris' }
+                },
+                ticketTypes: [
+                    { name: 'Orchestre', price: 35, quantityAvailable: 150 },
+                    { name: 'Balcon', price: 25, quantityAvailable: 80 }
+                ],
+                provider: { name: 'Théâtres de Paris', logo: '' },
+                images: [{ url: '/images/placeholder-theatre.jpg', isPrimary: true }]
+            },
+            {
+                id: '3',
+                title: 'PSG vs Olympique de Lyon',
+                description: 'Match de football de Ligue 1 au Parc des Princes.',
+                category: 'sport',
+                dateTime: {
+                    start: new Date(Date.now() + 21 * 24 * 60 * 60 * 1000),
+                    end: new Date(Date.now() + 21 * 24 * 60 * 60 * 1000 + 2 * 60 * 60 * 1000)
+                },
+                venue: {
+                    name: 'Parc des Princes',
+                    address: { city: 'Paris' }
+                },
+                ticketTypes: [
+                    { name: 'Tribune', price: 50, quantityAvailable: 200 },
+                    { name: 'Premium', price: 120, quantityAvailable: 50 }
+                ],
+                provider: { name: 'PSG Billetterie', logo: '' },
+                images: [{ url: '/images/placeholder-sport.jpg', isPrimary: true }]
+            },
+            {
+                id: '4',
+                title: 'Conférence Tech Innovation 2025',
+                description: 'Les dernières innovations technologiques présentées par les experts.',
+                category: 'conference',
+                dateTime: {
+                    start: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+                    end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000 + 8 * 60 * 60 * 1000)
+                },
+                venue: {
+                    name: 'Palais des Congrès',
+                    address: { city: 'Lyon' }
+                },
+                ticketTypes: [
+                    { name: 'Standard', price: 75, quantityAvailable: 300 },
+                    { name: 'Premium', price: 150, quantityAvailable: 50 }
+                ],
+                provider: { name: 'Tech Events Lyon', logo: '' },
+                images: [{ url: '/images/placeholder-conference.jpg', isPrimary: true }]
+            },
+            {
+                id: '5',
+                title: 'Festival Électro Summer',
+                description: 'Le plus grand festival de musique électronique de la région.',
+                category: 'festival',
+                dateTime: {
+                    start: new Date(Date.now() + 45 * 24 * 60 * 60 * 1000),
+                    end: new Date(Date.now() + 47 * 24 * 60 * 60 * 1000)
+                },
+                venue: {
+                    name: 'Parc de la Tête d\'Or',
+                    address: { city: 'Lyon' }
+                },
+                ticketTypes: [
+                    { name: 'Pass 1 jour', price: 65, quantityAvailable: 500 },
+                    { name: 'Pass 3 jours', price: 150, quantityAvailable: 200 },
+                    { name: 'VIP 3 jours', price: 300, quantityAvailable: 50 }
+                ],
+                provider: { name: 'Summer Festivals', logo: '' },
+                images: [{ url: '/images/placeholder-festival.jpg', isPrimary: true }]
+            }
+        ];
+
+        // Initialize events
+        function initializeEvents() {
+            allEvents = mockEvents;
+            displayEvents(allEvents);
+            updateResultsCount(allEvents.length);
+        }
+
+        // Display events
+        function displayEvents(events) {
+            const container = document.getElementById('eventsContainer');
+            
+            if (events.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-5">
+                        <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                        <h4>Aucun événement trouvé</h4>
+                        <p class="text-muted">Essayez de modifier vos critères de recherche.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            if (currentView === 'grid') {
+                displayGridView(events);
+            } else {
+                displayListView(events);
+            }
+        }
+
+        function displayGridView(events) {
+            const container = document.getElementById('eventsContainer');
+            container.innerHTML = `
+                <div class="row">
+                    ${events.map(event => `
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card h-100 event-card">
+                                <div class="position-relative">
+                                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                        <i class="fas fa-${getCategoryIcon(event.category)} fa-3x text-muted"></i>
+                                    </div>
+                                    <span class="badge bg-${getCategoryColor(event.category)} position-absolute top-0 end-0 m-2">
+                                        ${getCategoryName(event.category)}
+                                    </span>
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">${event.title}</h5>
+                                    <p class="card-text text-muted flex-grow-1">
+                                        ${event.description.substring(0, 100)}...
+                                    </p>
+                                    <div class="mb-3">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="fas fa-calendar text-primary me-2"></i>
+                                            <small>${formatEventDate(event.dateTime.start)}</small>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                                            <small>${event.venue.name}, ${event.venue.address.city}</small>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-building text-primary me-2"></i>
+                                            <small>${event.provider.name}</small>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="h6 text-primary mb-0">
+                                            À partir de ${MultiBilleterie.formatPrice(Math.min(...event.ticketTypes.map(t => t.price)))}
+                                        </span>
+                                        <button class="btn btn-primary btn-sm" onclick="viewEventDetails('${event.id}')">
+                                            Voir détails
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function displayListView(events) {
+            const container = document.getElementById('eventsContainer');
+            container.innerHTML = events.map(event => `
+                <div class="card mb-3 event-card">
+                    <div class="row g-0">
+                        <div class="col-md-3">
+                            <div class="bg-light d-flex align-items-center justify-content-center h-100">
+                                <i class="fas fa-${getCategoryIcon(event.category)} fa-3x text-muted"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h5 class="card-title mb-0">${event.title}</h5>
+                                    <span class="badge bg-${getCategoryColor(event.category)}">
+                                        ${getCategoryName(event.category)}
+                                    </span>
+                                </div>
+                                <p class="card-text">${event.description}</p>
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        <div class="d-flex align-items-center mb-1">
+                                            <i class="fas fa-calendar text-primary me-2"></i>
+                                            <small>${formatEventDate(event.dateTime.start)}</small>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-1">
+                                            <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                                            <small>${event.venue.name}, ${event.venue.address.city}</small>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-building text-primary me-2"></i>
+                                            <small>${event.provider.name}</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 text-end">
+                                        <div class="mb-2">
+                                            <span class="h6 text-primary">
+                                                À partir de ${MultiBilleterie.formatPrice(Math.min(...event.ticketTypes.map(t => t.price)))}
+                                            </span>
+                                        </div>
+                                        <button class="btn btn-primary" onclick="viewEventDetails('${event.id}')">
+                                            Voir détails
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Helper functions
+        function getCategoryIcon(category) {
+            const icons = {
+                concert: 'music',
+                theatre: 'theater-masks',
+                sport: 'futbol',
+                conference: 'microphone',
+                festival: 'glass-cheers'
+            };
+            return icons[category] || 'calendar';
+        }
+
+        function getCategoryColor(category) {
+            const colors = {
+                concert: 'primary',
+                theatre: 'success',
+                sport: 'warning',
+                conference: 'info',
+                festival: 'danger'
+            };
+            return colors[category] || 'secondary';
+        }
+
+        function getCategoryName(category) {
+            const names = {
+                concert: 'Concert',
+                theatre: 'Théâtre',
+                sport: 'Sport',
+                conference: 'Conférence',
+                festival: 'Festival'
+            };
+            return names[category] || category;
+        }
+
+        function formatEventDate(date) {
+            return new Date(date).toLocaleDateString('fr-FR', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function updateResultsCount(count) {
+            document.getElementById('resultsCount').textContent = 
+                `${count} événement${count > 1 ? 's' : ''} trouvé${count > 1 ? 's' : ''}`;
+        }
+
+        function viewEventDetails(eventId) {
+            // For now, just show an alert
+            const event = allEvents.find(e => e.id === eventId);
+            if (event) {
+                alert(`Détails de l'événement: ${event.title}\n\nFonctionnalité en cours de développement...`);
+            }
+        }
+
+        // Event listeners
+        document.getElementById('gridView').addEventListener('click', function() {
+            currentView = 'grid';
+            this.classList.add('active');
+            document.getElementById('listView').classList.remove('active');
+            displayEvents(allEvents);
+        });
+
+        document.getElementById('listView').addEventListener('click', function() {
+            currentView = 'list';
+            this.classList.add('active');
+            document.getElementById('gridView').classList.remove('active');
+            displayEvents(allEvents);
+        });
+
+        document.getElementById('searchInput').addEventListener('input', MultiBilleterie.debounce(function() {
+            const query = this.value.toLowerCase();
+            const filtered = allEvents.filter(event => 
+                event.title.toLowerCase().includes(query) ||
+                event.description.toLowerCase().includes(query) ||
+                event.venue.name.toLowerCase().includes(query)
+            );
+            displayEvents(filtered);
+            updateResultsCount(filtered.length);
+        }, 300));
+
+        document.getElementById('applyFilters').addEventListener('click', function() {
+            // Implement filtering logic
+            let filtered = [...allEvents];
+            
+            // Category filter
+            const selectedCategories = Array.from(document.querySelectorAll('input[type="checkbox"]:checked'))
+                .map(cb => cb.value);
+            
+            if (selectedCategories.length > 0) {
+                filtered = filtered.filter(event => selectedCategories.includes(event.category));
+            }
+            
+            // Price filter
+            const maxPrice = parseInt(document.getElementById('priceRange').value);
+            filtered = filtered.filter(event => 
+                Math.min(...event.ticketTypes.map(t => t.price)) <= maxPrice
+            );
+            
+            // City filter
+            const selectedCity = document.getElementById('cityFilter').value;
+            if (selectedCity) {
+                filtered = filtered.filter(event => 
+                    event.venue.address.city.toLowerCase() === selectedCity
+                );
+            }
+            
+            displayEvents(filtered);
+            updateResultsCount(filtered.length);
+        });
+
+        document.getElementById('clearFilters').addEventListener('click', function() {
+            // Reset all filters
+            document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+            document.querySelectorAll('input[type="radio"]').forEach(rb => rb.checked = false);
+            document.getElementById('date-all').checked = true;
+            document.getElementById('priceRange').value = 200;
+            document.getElementById('cityFilter').value = '';
+            document.getElementById('searchInput').value = '';
+            
+            displayEvents(allEvents);
+            updateResultsCount(allEvents.length);
+        });
+
+        // Price range update
+        document.getElementById('priceRange').addEventListener('input', function() {
+            document.getElementById('maxPrice').textContent = this.value + '€';
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', initializeEvents);
+    </script>
+</body>
+</html>

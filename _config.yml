@@ -1,0 +1,74 @@
+name: Multi-Billeterie
+description: Plateforme moderne de multi-billeterie avec architecture MVC et technologies modernes
+url: "https://your-username.github.io"
+baseurl: "/multi-billeterie"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+theme: jekyll-theme-cayman
+
+# Exclude files from processing
+exclude:
+  - node_modules/
+  - .git/
+  - .github/
+  - src/
+  - tests/
+  - package.json
+  - package-lock.json
+  - Dockerfile
+  - docker-compose.yml
+  - .env*
+  - .eslintrc.json
+  - .prettierrc.json
+  - jest.config.js
+  - setup.js
+  - setup.bat
+  - setup.sh
+  - DEPLOYMENT.md
+  - CONTRIBUTING.md
+  - MIGRATION.md
+  - PROJECT_STATUS.md
+
+# Include files
+include:
+  - docs/
+
+# GitHub Pages specific
+plugins:
+  - jekyll-optional-front-matter
+  - jekyll-readme-index
+  - jekyll-default-layout
+  - jekyll-titles-from-headings
+
+# Collections
+collections:
+  docs:
+    output: true
+    permalink: /:collection/:name/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+  - scope:
+      path: "docs"
+      type: "pages"
+    values:
+      layout: "default"
+
+# SEO
+title: Multi-Billeterie
+author: 
+  name: "Multi-Billeterie Team"
+  
+# Social
+github_username: your-username
+repository: your-username/multi-billeterie
+
+# Analytics (optionnel)
+# google_analytics: UA-XXXXXXXX-X

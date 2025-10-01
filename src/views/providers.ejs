@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prestataires | Multi-Billeterie</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="fas fa-ticket-alt me-2"></i>
+                Multi-Billeterie
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            <i class="fas fa-home me-1"></i>
+                            Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/events">
+                            <i class="fas fa-calendar-alt me-1"></i>
+                            Événements
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/providers">
+                            <i class="fas fa-building me-1"></i>
+                            Prestataires
+                        </a>
+                    </li>
+                </ul>
+                
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-1"></i>
+                            Mon compte
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/auth/login">
+                                <i class="fas fa-sign-in-alt me-2"></i>Connexion
+                            </a></li>
+                            <li><a class="dropdown-item" href="/auth/register?role=provider">
+                                <i class="fas fa-user-plus me-2"></i>Devenir prestataire
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/dashboard">
+                                <i class="fas fa-tachometer-alt me-2"></i>Tableau de bord
+                            </a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="bg-primary text-white py-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="display-5 fw-bold mb-2">
+                        <i class="fas fa-building me-2"></i>
+                        Découvrez nos prestataires
+                    </h1>
+                    <p class="lead mb-0">
+                        Des organisateurs d'événements passionnés qui créent des expériences uniques
+                    </p>
+                </div>
+                <div class="col-lg-4 text-end">
+                    <a href="/auth/register?role=provider" class="btn btn-light btn-lg">
+                        <i class="fas fa-plus me-2"></i>
+                        Devenir prestataire
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container py-4">
+        <!-- Search and Filters -->
+        <div class="row mb-4">
+            <div class="col-lg-8">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="searchInput" placeholder="Rechercher un prestataire...">
+                    <button class="btn btn-primary" type="button" id="searchButton">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <select class="form-select" id="cityFilter">
+                    <option value="">Toutes les villes</option>
+                    <option value="paris">Paris</option>
+                    <option value="lyon">Lyon</option>
+                    <option value="marseille">Marseille</option>
+                    <option value="toulouse">Toulouse</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="row mb-5">
+            <div class="col-md-3 col-6 mb-3">
+                <div class="text-center">
+                    <div class="h2 text-primary fw-bold">50+</div>
+                    <div class="text-muted">Prestataires actifs</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="text-center">
+                    <div class="h2 text-success fw-bold">500+</div>
+                    <div class="text-muted">Événements créés</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="text-center">
+                    <div class="h2 text-warning fw-bold">15</div>
+                    <div class="text-muted">Villes couvertes</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="text-center">
+                    <div class="h2 text-info fw-bold">98%</div>
+                    <div class="text-muted">Satisfaction client</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Providers Grid -->
+        <div class="row" id="providersContainer">
+            <!-- Loading -->
+            <div class="col-12 text-center py-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Chargement des prestataires...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <nav aria-label="Navigation des prestataires" class="mt-4">
+            <ul class="pagination justify-content-center" id="pagination">
+                <!-- Pagination will be generated by JavaScript -->
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Call to Action -->
+    <section class="bg-light py-5 mt-5">
+        <div class="container text-center">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <h2 class="display-6 fw-bold mb-4">
+                        Vous organisez des événements ?
+                    </h2>
+                    <p class="lead text-muted mb-4">
+                        Rejoignez notre plateforme et faites découvrir vos événements à des milliers de participants potentiels.
+                    </p>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="text-center">
+                                <i class="fas fa-rocket fa-2x text-primary mb-3"></i>
+                                <h5>Croissance rapide</h5>
+                                <p class="text-muted">Développez votre audience et vos ventes</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="text-center">
+                                <i class="fas fa-tools fa-2x text-primary mb-3"></i>
+                                <h5>Outils professionnels</h5>
+                                <p class="text-muted">Interface complète de gestion</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="text-center">
+                                <i class="fas fa-headset fa-2x text-primary mb-3"></i>
+                                <h5>Support dédié</h5>
+                                <p class="text-muted">Accompagnement personnalisé</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <a href="/auth/register?role=provider" class="btn btn-primary btn-lg me-3">
+                            <i class="fas fa-user-plus me-2"></i>
+                            Devenir prestataire
+                        </a>
+                        <a href="/contact" class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-phone me-2"></i>
+                            Nous contacter
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script>
+        let allProviders = [];
+
+        // Mock providers data
+        const mockProviders = [
+            {
+                id: '1',
+                name: 'Music Events Paris',
+                description: 'Spécialiste des concerts et festivals de musique dans la région parisienne. Plus de 10 ans d\'expérience dans l\'organisation d\'événements musicaux.',
+                email: 'contact@musiceventsparis.fr',
+                phone: '01 23 45 67 89',
+                website: 'https://musiceventsparis.fr',
+                address: {
+                    city: 'Paris',
+                    postalCode: '75001',
+                    country: 'France'
+                },
+                logo: '/images/placeholder-logo.png',
+                isVerified: true,
+                statistics: {
+                    totalEvents: 45,
+                    totalTicketsSold: 15000,
+                    averageRating: 4.8
+                },
+                specialties: ['Concerts', 'Festivals', 'Musique live'],
+                socialMedia: {
+                    facebook: 'https://facebook.com/musiceventsparis',
+                    instagram: 'https://instagram.com/musiceventsparis'
+                }
+            },
+            {
+                id: '2',
+                name: 'Théâtres de Paris',
+                description: 'Production et diffusion de spectacles théâtraux dans les plus belles salles parisiennes. Une programmation éclectique et de qualité.',
+                email: 'info@theatresdeparis.com',
+                phone: '01 34 56 78 90',
+                website: 'https://theatresdeparis.com',
+                address: {
+                    city: 'Paris',
+                    postalCode: '75009',
+                    country: 'France'
+                },
+                logo: '/images/placeholder-logo.png',
+                isVerified: true,
+                statistics: {
+                    totalEvents: 32,
+                    totalTicketsSold: 8500,
+                    averageRating: 4.9
+                },
+                specialties: ['Théâtre classique', 'Théâtre contemporain', 'Spectacles'],
+                socialMedia: {
+                    facebook: 'https://facebook.com/theatresdeparis'
+                }
+            },
+            {
+                id: '3',
+                name: 'PSG Billetterie',
+                description: 'Billetterie officielle du Paris Saint-Germain. Matchs de Ligue 1, Champions League et événements spéciaux au Parc des Princes.',
+                email: 'tickets@psg.fr',
+                phone: '01 45 67 89 01',
+                website: 'https://billetterie.psg.fr',
+                address: {
+                    city: 'Paris',
+                    postalCode: '75016',
+                    country: 'France'
+                },
+                logo: '/images/placeholder-logo.png',
+                isVerified: true,
+                statistics: {
+                    totalEvents: 28,
+                    totalTicketsSold: 850000,
+                    averageRating: 4.7
+                },
+                specialties: ['Football', 'Sport professionnel', 'Événements sportifs'],
+                socialMedia: {
+                    facebook: 'https://facebook.com/psg',
+                    twitter: 'https://twitter.com/psg',
+                    instagram: 'https://instagram.com/psg'
+                }
+            },
+            {
+                id: '4',
+                name: 'Tech Events Lyon',
+                description: 'Organisation de conférences et événements technologiques à Lyon. Spécialiste des rencontres professionnelles dans le secteur IT.',
+                email: 'contact@techevents-lyon.fr',
+                phone: '04 78 90 12 34',
+                website: 'https://techevents-lyon.fr',
+                address: {
+                    city: 'Lyon',
+                    postalCode: '69002',
+                    country: 'France'
+                },
+                logo: '/images/placeholder-logo.png',
+                isVerified: true,
+                statistics: {
+                    totalEvents: 18,
+                    totalTicketsSold: 3200,
+                    averageRating: 4.6
+                },
+                specialties: ['Conférences tech', 'Formations', 'Networking'],
+                socialMedia: {
+                    linkedin: 'https://linkedin.com/company/techevents-lyon'
+                }
+            },
+            {
+                id: '5',
+                name: 'Summer Festivals',
+                description: 'Créateur de festivals d\'été mémorables. Musique, gastronomie et art se rencontrent dans des lieux d\'exception.',
+                email: 'hello@summerfestivals.fr',
+                phone: '04 56 78 90 12',
+                website: 'https://summerfestivals.fr',
+                address: {
+                    city: 'Lyon',
+                    postalCode: '69003',
+                    country: 'France'
+                },
+                logo: '/images/placeholder-logo.png',
+                isVerified: false,
+                statistics: {
+                    totalEvents: 12,
+                    totalTicketsSold: 25000,
+                    averageRating: 4.5
+                },
+                specialties: ['Festivals', 'Musique électronique', 'Événements d\'été'],
+                socialMedia: {
+                    facebook: 'https://facebook.com/summerfestivals',
+                    instagram: 'https://instagram.com/summerfestivals'
+                }
+            }
+        ];
+
+        // Initialize providers
+        function initializeProviders() {
+            allProviders = mockProviders;
+            displayProviders(allProviders);
+        }
+
+        // Display providers
+        function displayProviders(providers) {
+            const container = document.getElementById('providersContainer');
+            
+            if (providers.length === 0) {
+                container.innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                        <h4>Aucun prestataire trouvé</h4>
+                        <p class="text-muted">Essayez de modifier vos critères de recherche.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = providers.map(provider => `
+                <div class="col-lg-6 col-xl-4 mb-4">
+                    <div class="card h-100 provider-card shadow-sm">
+                        <div class="card-body">
+                            <div class="d-flex align-items-start mb-3">
+                                <div class="flex-shrink-0 me-3">
+                                    <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" 
+                                         style="width: 60px; height: 60px;">
+                                        <i class="fas fa-building fa-lg"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="d-flex align-items-center mb-1">
+                                        <h5 class="card-title mb-0 me-2">${provider.name}</h5>
+                                        ${provider.isVerified ? '<i class="fas fa-check-circle text-success" title="Prestataire vérifié"></i>' : ''}
+                                    </div>
+                                    <div class="d-flex align-items-center text-muted">
+                                        <i class="fas fa-map-marker-alt me-1"></i>
+                                        <small>${provider.address.city}</small>
+                                        <div class="ms-3 d-flex align-items-center">
+                                            <i class="fas fa-star text-warning me-1"></i>
+                                            <small>${provider.statistics.averageRating}/5</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <p class="card-text text-muted mb-3">
+                                ${provider.description.substring(0, 120)}...
+                            </p>
+                            
+                            <div class="mb-3">
+                                <div class="row text-center small">
+                                    <div class="col-4">
+                                        <div class="fw-bold text-primary">${provider.statistics.totalEvents}</div>
+                                        <div class="text-muted">Événements</div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="fw-bold text-success">${formatNumber(provider.statistics.totalTicketsSold)}</div>
+                                        <div class="text-muted">Tickets vendus</div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="fw-bold text-warning">${provider.statistics.averageRating}</div>
+                                        <div class="text-muted">Note moyenne</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <div class="d-flex flex-wrap gap-1">
+                                    ${provider.specialties.slice(0, 3).map(specialty => 
+                                        `<span class="badge bg-light text-dark">${specialty}</span>`
+                                    ).join('')}
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="social-links">
+                                    ${provider.socialMedia.facebook ? '<a href="' + provider.socialMedia.facebook + '" class="text-muted me-2" target="_blank"><i class="fab fa-facebook"></i></a>' : ''}
+                                    ${provider.socialMedia.instagram ? '<a href="' + provider.socialMedia.instagram + '" class="text-muted me-2" target="_blank"><i class="fab fa-instagram"></i></a>' : ''}
+                                    ${provider.socialMedia.twitter ? '<a href="' + provider.socialMedia.twitter + '" class="text-muted me-2" target="_blank"><i class="fab fa-twitter"></i></a>' : ''}
+                                    ${provider.socialMedia.linkedin ? '<a href="' + provider.socialMedia.linkedin + '" class="text-muted me-2" target="_blank"><i class="fab fa-linkedin"></i></a>' : ''}
+                                </div>
+                                <button class="btn btn-primary btn-sm" onclick="viewProviderDetails('${provider.id}')">
+                                    Voir profil
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Helper functions
+        function formatNumber(num) {
+            if (num >= 1000) {
+                return (num / 1000).toFixed(1) + 'k';
+            }
+            return num.toString();
+        }
+
+        function viewProviderDetails(providerId) {
+            const provider = allProviders.find(p => p.id === providerId);
+            if (provider) {
+                alert(`Profil de ${provider.name}\n\nFonctionnalité en cours de développement...`);
+            }
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', MultiBilleterie.debounce(function() {
+            const query = this.value.toLowerCase();
+            const cityFilter = document.getElementById('cityFilter').value.toLowerCase();
+            
+            let filtered = allProviders.filter(provider => 
+                provider.name.toLowerCase().includes(query) ||
+                provider.description.toLowerCase().includes(query) ||
+                provider.specialties.some(specialty => specialty.toLowerCase().includes(query))
+            );
+            
+            if (cityFilter) {
+                filtered = filtered.filter(provider => 
+                    provider.address.city.toLowerCase() === cityFilter
+                );
+            }
+            
+            displayProviders(filtered);
+        }, 300));
+
+        document.getElementById('cityFilter').addEventListener('change', function() {
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+            const cityFilter = this.value.toLowerCase();
+            
+            let filtered = allProviders;
+            
+            if (searchQuery) {
+                filtered = filtered.filter(provider => 
+                    provider.name.toLowerCase().includes(searchQuery) ||
+                    provider.description.toLowerCase().includes(searchQuery) ||
+                    provider.specialties.some(specialty => specialty.toLowerCase().includes(searchQuery))
+                );
+            }
+            
+            if (cityFilter) {
+                filtered = filtered.filter(provider => 
+                    provider.address.city.toLowerCase() === cityFilter
+                );
+            }
+            
+            displayProviders(filtered);
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', initializeProviders);
+    </script>
+</body>
+</html>

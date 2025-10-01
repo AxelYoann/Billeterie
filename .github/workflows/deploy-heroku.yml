@@ -1,0 +1,101 @@
+name: Auto Deploy to Heroku
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    services:
+      mongodb:
+        image: mongo:6.0
+        ports:
+          - 27017:27017
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        env:
+          NODE_ENV: test
+          MONGODB_URI: mongodb://localhost:27017/test
+          JWT_SECRET: test-secret
+        run: npm test
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.14
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+          
+      - name: Run database migrations
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+        run: |
+          # Install Heroku CLI
+          curl https://cli-assets.heroku.com/install.sh | sh
+          
+          # Run migrations if they exist
+          if [ -f "scripts/migrate.js" ]; then
+            heroku run node scripts/migrate.js --app $HEROKU_APP_NAME
+          fi
+
+      - name: Health check
+        run: |
+          # Wait for deployment to be ready
+          sleep 30
+          
+          # Check if app is responding
+          APP_URL="https://${{ secrets.HEROKU_APP_NAME }}.herokuapp.com"
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" $APP_URL/health || echo "000")
+          
+          if [ "$HTTP_STATUS" = "200" ]; then
+            echo "✅ Deployment successful! App is healthy."
+            echo "🚀 Application URL: $APP_URL"
+          else
+            echo "❌ Deployment failed! HTTP Status: $HTTP_STATUS"
+            exit 1
+          fi
+
+      - name: Notify deployment
+        if: always()
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        run: |
+          if [ "${{ job.status }}" = "success" ]; then
+            MESSAGE="✅ Multi-Billeterie déployé avec succès sur Heroku!"
+            COLOR="good"
+          else
+            MESSAGE="❌ Échec du déploiement Multi-Billeterie"
+            COLOR="danger"
+          fi
+          
+          if [ ! -z "$SLACK_WEBHOOK" ]; then
+            curl -X POST -H 'Content-type: application/json' \
+              --data "{\"text\":\"$MESSAGE\", \"color\":\"$COLOR\"}" \
+              $SLACK_WEBHOOK
+          fi

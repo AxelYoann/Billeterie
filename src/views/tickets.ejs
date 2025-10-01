@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes Tickets | Multi-Billeterie</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+    <style>
+        .ticket-card {
+            border: 2px dashed #e0e0e0;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ticket-card:hover {
+            border-color: var(--bs-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .ticket-card.confirmed {
+            border-color: #28a745;
+            background: linear-gradient(135deg, #f8fff9 0%, #e8f5e8 100%);
+        }
+        
+        .ticket-card.pending {
+            border-color: #ffc107;
+            background: linear-gradient(135deg, #fffdf0 0%, #fff8e1 100%);
+        }
+        
+        .ticket-card.cancelled {
+            border-color: #dc3545;
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe6e6 100%);
+        }
+        
+        .ticket-perforation {
+            position: absolute;
+            right: 30%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: repeating-linear-gradient(
+                to bottom,
+                transparent 0,
+                transparent 8px,
+                #e0e0e0 8px,
+                #e0e0e0 16px
+            );
+        }
+        
+        .qr-code {
+            width: 80px;
+            height: 80px;
+            background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgdmlld0JveD0iMCAwIDEwMCAxMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSJ3aGl0ZSIvPgo8cmVjdCB4PSIxMCIgeT0iMTAiIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCIgZmlsbD0iYmxhY2siLz4KPHJlY3QgeD0iMjAiIHk9IjIwIiB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIGZpbGw9IndoaXRlIi8+CjxyZWN0IHg9IjMwIiB5PSIzMCIgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSJibGFjayIvPgo8L3N2Zz4K') center/contain no-repeat;
+        }
+        
+        .status-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 10;
+        }
+        
+        .timeline {
+            position: relative;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #dee2e6;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 3rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #6c757d;
+        }
+        
+        .timeline-item.completed::before {
+            background: #28a745;
+        }
+        
+        .timeline-item.current::before {
+            background: #007bff;
+            box-shadow: 0 0 0 4px rgba(0,123,255,0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="fas fa-ticket-alt me-2"></i>
+                Multi-Billeterie
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            <i class="fas fa-home me-1"></i>
+                            Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/events">
+                            <i class="fas fa-calendar-alt me-1"></i>
+                            Événements
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/providers">
+                            <i class="fas fa-building me-1"></i>
+                            Prestataires
+                        </a>
+                    </li>
+                </ul>
+                
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-1"></i>
+                            Mon compte
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/dashboard">
+                                <i class="fas fa-tachometer-alt me-2"></i>Tableau de bord
+                            </a></li>
+                            <li><a class="dropdown-item active" href="/tickets">
+                                <i class="fas fa-ticket-alt me-2"></i>Mes tickets
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#" onclick="logout()">
+                                <i class="fas fa-sign-out-alt me-2"></i>Déconnexion
+                            </a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-4">
+        <!-- Header -->
+        <div class="row mb-4">
+            <div class="col-lg-8">
+                <h1 class="display-6 fw-bold mb-2">
+                    <i class="fas fa-ticket-alt me-2"></i>
+                    Mes tickets
+                </h1>
+                <p class="lead text-muted">
+                    Gérez vos réservations et téléchargez vos billets
+                </p>
+            </div>
+            <div class="col-lg-4 text-end">
+                <button class="btn btn-primary" onclick="downloadAllTickets()">
+                    <i class="fas fa-download me-2"></i>
+                    Télécharger tout
+                </button>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <select class="form-select" id="statusFilter">
+                    <option value="">Tous les statuts</option>
+                    <option value="confirmed">Confirmés</option>
+                    <option value="pending">En attente</option>
+                    <option value="cancelled">Annulés</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <select class="form-select" id="dateFilter">
+                    <option value="">Toutes les dates</option>
+                    <option value="upcoming">À venir</option>
+                    <option value="past">Passés</option>
+                    <option value="thisMonth">Ce mois</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <input type="text" class="form-control" id="searchInput" placeholder="Rechercher un événement...">
+            </div>
+        </div>
+
+        <!-- Tickets Summary -->
+        <div class="row mb-4">
+            <div class="col-md-3 col-6 mb-3">
+                <div class="card text-center border-0 bg-light">
+                    <div class="card-body">
+                        <i class="fas fa-ticket-alt fa-2x text-primary mb-2"></i>
+                        <h5 class="card-title">Total</h5>
+                        <h3 class="text-primary">8</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="card text-center border-0 bg-light">
+                    <div class="card-body">
+                        <i class="fas fa-check-circle fa-2x text-success mb-2"></i>
+                        <h5 class="card-title">Confirmés</h5>
+                        <h3 class="text-success">6</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="card text-center border-0 bg-light">
+                    <div class="card-body">
+                        <i class="fas fa-clock fa-2x text-warning mb-2"></i>
+                        <h5 class="card-title">En attente</h5>
+                        <h3 class="text-warning">1</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="card text-center border-0 bg-light">
+                    <div class="card-body">
+                        <i class="fas fa-times-circle fa-2x text-danger mb-2"></i>
+                        <h5 class="card-title">Annulés</h5>
+                        <h3 class="text-danger">1</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tickets List -->
+        <div class="row" id="ticketsContainer">
+            <!-- Loading -->
+            <div class="col-12 text-center py-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Chargement des tickets...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ticket Detail Modal -->
+    <div class="modal fade" id="ticketModal" tabindex="-1" aria-labelledby="ticketModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ticketModalLabel">Détails du ticket</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="ticketModalBody">
+                    <!-- Content will be loaded dynamically -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary" id="downloadTicketBtn">
+                        <i class="fas fa-download me-2"></i>Télécharger
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script>
+        let allTickets = [];
+
+        // Mock tickets data
+        const mockTickets = [
+            {
+                id: 'TKT001',
+                eventId: '1',
+                eventName: 'Concert Coldplay - Paris La Défense Arena',
+                eventDate: '2024-03-15T20:00:00',
+                venue: 'Paris La Défense Arena',
+                category: 'Carré Or',
+                price: 89.50,
+                quantity: 2,
+                status: 'confirmed',
+                purchaseDate: '2024-01-15T10:30:00',
+                qrCode: 'QR123456789',
+                provider: 'Music Events Paris',
+                seatNumber: 'A12-A13',
+                orderNumber: 'CMD-2024-001'
+            },
+            {
+                id: 'TKT002',
+                eventId: '2',
+                eventName: 'Hamlet - Théâtre de la Ville',
+                eventDate: '2024-02-28T19:30:00',
+                venue: 'Théâtre de la Ville',
+                category: 'Orchestre',
+                price: 45.00,
+                quantity: 1,
+                status: 'confirmed',
+                purchaseDate: '2024-01-20T14:15:00',
+                qrCode: 'QR987654321',
+                provider: 'Théâtres de Paris',
+                seatNumber: 'O15',
+                orderNumber: 'CMD-2024-002'
+            },
+            {
+                id: 'TKT003',
+                eventId: '3',
+                eventName: 'PSG vs. Marseille',
+                eventDate: '2024-04-20T21:00:00',
+                venue: 'Parc des Princes',
+                category: 'Tribune Présidentielle',
+                price: 120.00,
+                quantity: 2,
+                status: 'confirmed',
+                purchaseDate: '2024-02-01T09:45:00',
+                qrCode: 'QR456789123',
+                provider: 'PSG Billetterie',
+                seatNumber: 'TP-45-46',
+                orderNumber: 'CMD-2024-003'
+            },
+            {
+                id: 'TKT004',
+                eventId: '4',
+                eventName: 'Conférence TechTalk 2024',
+                eventDate: '2024-03-10T09:00:00',
+                venue: 'Centre de Congrès de Lyon',
+                category: 'Pass Journée',
+                price: 150.00,
+                quantity: 1,
+                status: 'pending',
+                purchaseDate: '2024-02-25T16:20:00',
+                qrCode: 'QR789123456',
+                provider: 'Tech Events Lyon',
+                seatNumber: 'Libre',
+                orderNumber: 'CMD-2024-004'
+            },
+            {
+                id: 'TKT005',
+                eventId: '5',
+                eventName: 'Festival Summer Vibes',
+                eventDate: '2024-07-15T14:00:00',
+                venue: 'Parc de la Tête d\'Or',
+                category: 'Pass 3 jours',
+                price: 75.00,
+                quantity: 1,
+                status: 'cancelled',
+                purchaseDate: '2024-01-30T12:00:00',
+                qrCode: 'QR321654987',
+                provider: 'Summer Festivals',
+                seatNumber: 'Libre',
+                orderNumber: 'CMD-2024-005'
+            }
+        ];
+
+        // Initialize tickets
+        function initializeTickets() {
+            allTickets = mockTickets;
+            displayTickets(allTickets);
+        }
+
+        // Display tickets
+        function displayTickets(tickets) {
+            const container = document.getElementById('ticketsContainer');
+            
+            if (tickets.length === 0) {
+                container.innerHTML = `
+                    <div class="col-12 text-center py-5">
+                        <i class="fas fa-ticket-alt fa-3x text-muted mb-3"></i>
+                        <h4>Aucun ticket trouvé</h4>
+                        <p class="text-muted">Vous n'avez pas encore de réservations.</p>
+                        <a href="/events" class="btn btn-primary">
+                            <i class="fas fa-calendar-alt me-2"></i>
+                            Découvrir les événements
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = tickets.map(ticket => {
+                const eventDate = new Date(ticket.eventDate);
+                const purchaseDate = new Date(ticket.purchaseDate);
+                const isPast = eventDate < new Date();
+                const statusBadge = getStatusBadge(ticket.status);
+                const statusClass = ticket.status;
+
+                return `
+                    <div class="col-lg-6 mb-4">
+                        <div class="ticket-card ${statusClass} p-4">
+                            <div class="status-badge">
+                                ${statusBadge}
+                            </div>
+                            <div class="ticket-perforation"></div>
+                            
+                            <div class="row">
+                                <div class="col-8">
+                                    <h5 class="fw-bold mb-2">${ticket.eventName}</h5>
+                                    <div class="mb-2">
+                                        <i class="fas fa-map-marker-alt text-muted me-2"></i>
+                                        <span class="text-muted">${ticket.venue}</span>
+                                    </div>
+                                    <div class="mb-2">
+                                        <i class="fas fa-calendar text-muted me-2"></i>
+                                        <span class="text-muted">${eventDate.toLocaleDateString('fr-FR', {
+                                            weekday: 'long',
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric'
+                                        })}</span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <i class="fas fa-clock text-muted me-2"></i>
+                                        <span class="text-muted">${eventDate.toLocaleTimeString('fr-FR', {
+                                            hour: '2-digit',
+                                            minute: '2-digit'
+                                        })}</span>
+                                    </div>
+                                    
+                                    <div class="row mb-3">
+                                        <div class="col-6">
+                                            <small class="text-muted d-block">Catégorie</small>
+                                            <span class="fw-semibold">${ticket.category}</span>
+                                        </div>
+                                        <div class="col-6">
+                                            <small class="text-muted d-block">Place(s)</small>
+                                            <span class="fw-semibold">${ticket.seatNumber}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mb-3">
+                                        <div class="col-6">
+                                            <small class="text-muted d-block">Quantité</small>
+                                            <span class="fw-semibold">${ticket.quantity}</span>
+                                        </div>
+                                        <div class="col-6">
+                                            <small class="text-muted d-block">Prix</small>
+                                            <span class="fw-semibold text-success">${(ticket.price * ticket.quantity).toFixed(2)} €</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-4 text-center">
+                                    <div class="qr-code mx-auto mb-3"></div>
+                                    <small class="text-muted d-block mb-2">Code: ${ticket.qrCode}</small>
+                                    <small class="text-muted">${ticket.provider}</small>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top">
+                                <small class="text-muted">
+                                    Commande ${ticket.orderNumber}
+                                </small>
+                                <div>
+                                    <button class="btn btn-outline-primary btn-sm me-2" onclick="viewTicketDetails('${ticket.id}')">
+                                        <i class="fas fa-eye me-1"></i>Détails
+                                    </button>
+                                    ${ticket.status === 'confirmed' ? `
+                                        <button class="btn btn-primary btn-sm" onclick="downloadTicket('${ticket.id}')">
+                                            <i class="fas fa-download me-1"></i>PDF
+                                        </button>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Get status badge
+        function getStatusBadge(status) {
+            const badges = {
+                confirmed: '<span class="badge bg-success"><i class="fas fa-check me-1"></i>Confirmé</span>',
+                pending: '<span class="badge bg-warning"><i class="fas fa-clock me-1"></i>En attente</span>',
+                cancelled: '<span class="badge bg-danger"><i class="fas fa-times me-1"></i>Annulé</span>'
+            };
+            return badges[status] || '<span class="badge bg-secondary">Inconnu</span>';
+        }
+
+        // View ticket details
+        function viewTicketDetails(ticketId) {
+            const ticket = allTickets.find(t => t.id === ticketId);
+            if (!ticket) return;
+
+            const eventDate = new Date(ticket.eventDate);
+            const purchaseDate = new Date(ticket.purchaseDate);
+
+            document.getElementById('ticketModalBody').innerHTML = `
+                <div class="row">
+                    <div class="col-md-8">
+                        <h4 class="mb-3">${ticket.eventName}</h4>
+                        
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <strong>Date & Heure</strong>
+                                <p class="mb-0">${eventDate.toLocaleDateString('fr-FR', {
+                                    weekday: 'long',
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric'
+                                })} à ${eventDate.toLocaleTimeString('fr-FR', {
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                })}</p>
+                            </div>
+                            <div class="col-6">
+                                <strong>Lieu</strong>
+                                <p class="mb-0">${ticket.venue}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <strong>Catégorie</strong>
+                                <p class="mb-0">${ticket.category}</p>
+                            </div>
+                            <div class="col-6">
+                                <strong>Place(s)</strong>
+                                <p class="mb-0">${ticket.seatNumber}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <strong>Quantité</strong>
+                                <p class="mb-0">${ticket.quantity}</p>
+                            </div>
+                            <div class="col-6">
+                                <strong>Prix total</strong>
+                                <p class="mb-0 text-success fw-bold">${(ticket.price * ticket.quantity).toFixed(2)} €</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <strong>Organisateur</strong>
+                            <p class="mb-0">${ticket.provider}</p>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <strong>Numéro de commande</strong>
+                            <p class="mb-0">${ticket.orderNumber}</p>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <strong>Date d'achat</strong>
+                            <p class="mb-0">${purchaseDate.toLocaleDateString('fr-FR')} à ${purchaseDate.toLocaleTimeString('fr-FR', {
+                                hour: '2-digit',
+                                minute: '2-digit'
+                            })}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 text-center">
+                        <div class="qr-code mx-auto mb-3" style="width: 120px; height: 120px;"></div>
+                        <p><strong>Code QR</strong></p>
+                        <p class="font-monospace">${ticket.qrCode}</p>
+                        ${getStatusBadge(ticket.status)}
+                        
+                        ${ticket.status === 'confirmed' ? `
+                            <div class="mt-4">
+                                <div class="timeline">
+                                    <div class="timeline-item completed">
+                                        <h6>Commande confirmée</h6>
+                                        <small class="text-muted">Paiement validé</small>
+                                    </div>
+                                    <div class="timeline-item completed">
+                                        <h6>Ticket généré</h6>
+                                        <small class="text-muted">Prêt à télécharger</small>
+                                    </div>
+                                    <div class="timeline-item ${new Date() > eventDate ? 'completed' : 'current'}">
+                                        <h6>Événement</h6>
+                                        <small class="text-muted">${new Date() > eventDate ? 'Terminé' : 'À venir'}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+
+            const modal = new bootstrap.Modal(document.getElementById('ticketModal'));
+            modal.show();
+
+            // Set download button action
+            document.getElementById('downloadTicketBtn').onclick = () => downloadTicket(ticketId);
+        }
+
+        // Download ticket
+        function downloadTicket(ticketId) {
+            const ticket = allTickets.find(t => t.id === ticketId);
+            if (ticket && ticket.status === 'confirmed') {
+                MultiBilleterie.showNotification('Téléchargement du ticket en cours...', 'info');
+                // Simulate download
+                setTimeout(() => {
+                    MultiBilleterie.showNotification('Ticket téléchargé avec succès!', 'success');
+                }, 1000);
+            } else {
+                MultiBilleterie.showNotification('Impossible de télécharger ce ticket', 'error');
+            }
+        }
+
+        // Download all tickets
+        function downloadAllTickets() {
+            const confirmedTickets = allTickets.filter(t => t.status === 'confirmed');
+            if (confirmedTickets.length > 0) {
+                MultiBilleterie.showNotification(`Téléchargement de ${confirmedTickets.length} tickets en cours...`, 'info');
+                setTimeout(() => {
+                    MultiBilleterie.showNotification('Tous les tickets ont été téléchargés!', 'success');
+                }, 2000);
+            } else {
+                MultiBilleterie.showNotification('Aucun ticket confirmé à télécharger', 'warning');
+            }
+        }
+
+        // Filter functionality
+        function applyFilters() {
+            const statusFilter = document.getElementById('statusFilter').value;
+            const dateFilter = document.getElementById('dateFilter').value;
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+
+            let filtered = allTickets;
+
+            // Status filter
+            if (statusFilter) {
+                filtered = filtered.filter(ticket => ticket.status === statusFilter);
+            }
+
+            // Date filter
+            if (dateFilter) {
+                const now = new Date();
+                const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+                const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+                filtered = filtered.filter(ticket => {
+                    const eventDate = new Date(ticket.eventDate);
+                    switch (dateFilter) {
+                        case 'upcoming':
+                            return eventDate > now;
+                        case 'past':
+                            return eventDate < now;
+                        case 'thisMonth':
+                            return eventDate >= startOfMonth && eventDate <= endOfMonth;
+                        default:
+                            return true;
+                    }
+                });
+            }
+
+            // Search filter
+            if (searchQuery) {
+                filtered = filtered.filter(ticket =>
+                    ticket.eventName.toLowerCase().includes(searchQuery) ||
+                    ticket.venue.toLowerCase().includes(searchQuery) ||
+                    ticket.provider.toLowerCase().includes(searchQuery)
+                );
+            }
+
+            displayTickets(filtered);
+        }
+
+        // Event listeners
+        document.getElementById('statusFilter').addEventListener('change', applyFilters);
+        document.getElementById('dateFilter').addEventListener('change', applyFilters);
+        document.getElementById('searchInput').addEventListener('input', MultiBilleterie.debounce(applyFilters, 300));
+
+        // Logout function
+        function logout() {
+            if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
+                MultiBilleterie.showNotification('Déconnexion en cours...', 'info');
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1000);
+            }
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', initializeTickets);
+    </script>
+</body>
+</html>

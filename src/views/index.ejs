@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%= title %> | Multi-Billeterie</title>
+    
+    <!-- CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+    
+    <!-- Meta SEO -->
+    <meta name="description" content="Plateforme de multi-billeterie moderne pour prestataires et clients">
+    <meta name="keywords" content="billeterie, tickets, événements, spectacles, concerts">
+    <meta name="author" content="Multi-Billeterie">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="fas fa-ticket-alt me-2"></i>
+                Multi-Billeterie
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            <i class="fas fa-home me-1"></i>
+                            Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/events">
+                            <i class="fas fa-calendar-alt me-1"></i>
+                            Événements
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/providers">
+                            <i class="fas fa-building me-1"></i>
+                            Prestataires
+                        </a>
+                    </li>
+                </ul>
+                
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-1"></i>
+                            Mon compte
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/auth/login">
+                                <i class="fas fa-sign-in-alt me-2"></i>Connexion
+                            </a></li>
+                            <li><a class="dropdown-item" href="/auth/register">
+                                <i class="fas fa-user-plus me-2"></i>Inscription
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/dashboard">
+                                <i class="fas fa-tachometer-alt me-2"></i>Tableau de bord
+                            </a></li>
+                            <li><a class="dropdown-item" href="/tickets">
+                                <i class="fas fa-ticket-alt me-2"></i>Mes tickets
+                            </a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    <div id="flash-messages"></div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section bg-primary text-white py-5">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <h1 class="display-4 fw-bold mb-4">
+                            Bienvenue sur Multi-Billeterie
+                        </h1>
+                        <p class="lead mb-4">
+                            La plateforme moderne qui permet aux prestataires de créer leur billeterie 
+                            et aux clients d'acheter des tickets pour tous leurs événements préférés.
+                        </p>
+                        <div class="d-flex gap-3">
+                            <a href="/events" class="btn btn-light btn-lg">
+                                <i class="fas fa-search me-2"></i>
+                                Découvrir les événements
+                            </a>
+                            <a href="/auth/register?role=provider" class="btn btn-outline-light btn-lg">
+                                <i class="fas fa-plus me-2"></i>
+                                Devenir prestataire
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 text-center">
+                        <div class="hero-image">
+                            <i class="fas fa-ticket-alt display-1 text-white-50"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="display-5 fw-bold mb-3">Pourquoi choisir Multi-Billeterie ?</h2>
+                <p class="lead text-muted">Une solution complète pour tous vos besoins en billetterie</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <!-- Feature 1 -->
+            <div class="col-md-4">
+                <div class="feature-card h-100 p-4 text-center border rounded shadow-sm">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-store fa-3x text-primary"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Pour les Prestataires</h4>
+                    <p class="text-muted">
+                        Créez votre propre billetterie, gérez vos événements, 
+                        suivez vos ventes et optimisez votre activité.
+                    </p>
+                    <ul class="list-unstyled text-start">
+                        <li><i class="fas fa-check text-success me-2"></i>Interface intuitive</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Gestion complète</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Statistiques détaillées</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Feature 2 -->
+            <div class="col-md-4">
+                <div class="feature-card h-100 p-4 text-center border rounded shadow-sm">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-users fa-3x text-success"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Pour les Clients</h4>
+                    <p class="text-muted">
+                        Découvrez et achetez des tickets pour tous vos événements préférés 
+                        depuis une seule plateforme.
+                    </p>
+                    <ul class="list-unstyled text-start">
+                        <li><i class="fas fa-check text-success me-2"></i>Recherche avancée</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Paiement sécurisé</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Tickets numériques</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Feature 3 -->
+            <div class="col-md-4">
+                <div class="feature-card h-100 p-4 text-center border rounded shadow-sm">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-shield-alt fa-3x text-warning"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Sécurité & Fiabilité</h4>
+                    <p class="text-muted">
+                        Plateforme sécurisée avec authentification moderne 
+                        et protection des données personnelles.
+                    </p>
+                    <ul class="list-unstyled text-start">
+                        <li><i class="fas fa-check text-success me-2"></i>Chiffrement SSL</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Authentification JWT</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Données protégées</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section bg-light py-5">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h2 class="display-5 fw-bold mb-4">Prêt à commencer ?</h2>
+                <p class="lead mb-4">
+                    Rejoignez notre plateforme dès aujourd'hui et découvrez 
+                    une nouvelle façon de gérer votre billetterie.
+                </p>
+                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                    <a href="/auth/register" class="btn btn-primary btn-lg">
+                        <i class="fas fa-user-plus me-2"></i>
+                        S'inscrire maintenant
+                    </a>
+                    <a href="/api" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-code me-2"></i>
+                        API Documentation
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+        <!-- Stats Section -->
+        <section class="stats-section py-5">
+            <div class="container">
+                <div class="row text-center">
+                    <div class="col-md-3 col-6 mb-4">
+                        <div class="stat-item">
+                            <h3 class="display-4 fw-bold text-primary">100+</h3>
+                            <p class="text-muted">Prestataires actifs</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-4">
+                        <div class="stat-item">
+                            <h3 class="display-4 fw-bold text-success">1K+</h3>
+                            <p class="text-muted">Événements créés</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-4">
+                        <div class="stat-item">
+                            <h3 class="display-4 fw-bold text-warning">10K+</h3>
+                            <p class="text-muted">Tickets vendus</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-4">
+                        <div class="stat-item">
+                            <h3 class="display-4 fw-bold text-info">5K+</h3>
+                            <p class="text-muted">Clients satisfaits</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Multi-Billeterie</h5>
+                    <p class="mb-0">Plateforme moderne de multi-billeterie pour tous vos événements.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="social-links">
+                        <a href="#" class="text-light me-3"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-light me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-light me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-light"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                    <p class="mb-0 mt-2">&copy; <%= new Date().getFullYear() %> Multi-Billeterie. Tous droits réservés.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>

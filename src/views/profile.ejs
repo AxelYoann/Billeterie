@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Profil | Multi-Billeterie</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+    <style>
+        .profile-header {
+            background: linear-gradient(135deg, var(--bs-primary) 0%, var(--bs-info) 100%);
+            color: white;
+        }
+        
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border: 4px solid white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        
+        .profile-card {
+            margin-top: -80px;
+            border: none;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        }
+        
+        .stats-card {
+            border: none;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .activity-item {
+            border-left: 3px solid #dee2e6;
+            padding-left: 1rem;
+            margin-bottom: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .activity-item:hover {
+            border-color: var(--bs-primary);
+        }
+        
+        .nav-pills .nav-link {
+            color: #6c757d;
+            border-radius: 25px;
+        }
+        
+        .nav-pills .nav-link.active {
+            background: linear-gradient(135deg, var(--bs-primary) 0%, var(--bs-info) 100%);
+        }
+        
+        .form-floating label {
+            color: #6c757d;
+        }
+        
+        .security-item {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .preference-card {
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .preference-card:hover {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="fas fa-ticket-alt me-2"></i>
+                Multi-Billeterie
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            <i class="fas fa-home me-1"></i>
+                            Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/events">
+                            <i class="fas fa-calendar-alt me-1"></i>
+                            Événements
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/providers">
+                            <i class="fas fa-building me-1"></i>
+                            Prestataires
+                        </a>
+                    </li>
+                </ul>
+                
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-1"></i>
+                            Mon compte
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/dashboard">
+                                <i class="fas fa-tachometer-alt me-2"></i>Tableau de bord
+                            </a></li>
+                            <li><a class="dropdown-item active" href="/profile">
+                                <i class="fas fa-user-cog me-2"></i>Mon profil
+                            </a></li>
+                            <li><a class="dropdown-item" href="/tickets">
+                                <i class="fas fa-ticket-alt me-2"></i>Mes tickets
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#" onclick="logout()">
+                                <i class="fas fa-sign-out-alt me-2"></i>Déconnexion
+                            </a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Profile Header -->
+    <section class="profile-header py-5">
+        <div class="container">
+            <div class="text-center">
+                <img src="https://via.placeholder.com/120x120/007bff/ffffff?text=JD" 
+                     alt="Photo de profil" 
+                     class="profile-avatar rounded-circle">
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Profile Card -->
+        <div class="row justify-content-center">
+            <div class="col-lg-4">
+                <div class="card profile-card">
+                    <div class="card-body text-center">
+                        <h4 class="fw-bold mb-1">Jean Dupont</h4>
+                        <p class="text-muted mb-3">
+                            <i class="fas fa-map-marker-alt me-1"></i>
+                            Paris, France
+                        </p>
+                        <div class="d-flex justify-content-center mb-3">
+                            <span class="badge bg-success me-2">
+                                <i class="fas fa-check-circle me-1"></i>
+                                Compte vérifié
+                            </span>
+                            <span class="badge bg-primary">
+                                <i class="fas fa-crown me-1"></i>
+                                Client VIP
+                            </span>
+                        </div>
+                        <p class="text-muted small">
+                            Membre depuis janvier 2024
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-8">
+                <div class="card profile-card">
+                    <div class="card-body">
+                        <!-- Navigation Tabs -->
+                        <ul class="nav nav-pills mb-4" id="profileTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="overview-tab" data-bs-toggle="pill" data-bs-target="#overview" type="button" role="tab">
+                                    <i class="fas fa-chart-line me-2"></i>Aperçu
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="profile-tab" data-bs-toggle="pill" data-bs-target="#profile" type="button" role="tab">
+                                    <i class="fas fa-user-edit me-2"></i>Profil
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="security-tab" data-bs-toggle="pill" data-bs-target="#security" type="button" role="tab">
+                                    <i class="fas fa-shield-alt me-2"></i>Sécurité
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="preferences-tab" data-bs-toggle="pill" data-bs-target="#preferences" type="button" role="tab">
+                                    <i class="fas fa-cog me-2"></i>Préférences
+                                </button>
+                            </li>
+                        </ul>
+
+                        <!-- Tab Content -->
+                        <div class="tab-content" id="profileTabsContent">
+                            <!-- Overview Tab -->
+                            <div class="tab-pane fade show active" id="overview" role="tabpanel">
+                                <div class="row mb-4">
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card stats-card">
+                                            <div class="card-body text-center">
+                                                <i class="fas fa-ticket-alt fa-2x text-primary mb-2"></i>
+                                                <h5 class="fw-bold">24</h5>
+                                                <small class="text-muted">Tickets achetés</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card stats-card">
+                                            <div class="card-body text-center">
+                                                <i class="fas fa-calendar-check fa-2x text-success mb-2"></i>
+                                                <h5 class="fw-bold">18</h5>
+                                                <small class="text-muted">Événements assistés</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="card stats-card">
+                                            <div class="card-body text-center">
+                                                <i class="fas fa-euro-sign fa-2x text-warning mb-2"></i>
+                                                <h5 class="fw-bold">1,245€</h5>
+                                                <small class="text-muted">Total dépensé</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h6 class="fw-bold mb-3">Activité récente</h6>
+                                <div id="recentActivity">
+                                    <div class="activity-item">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div>
+                                                <h6 class="mb-1">Achat de tickets</h6>
+                                                <p class="mb-1 text-muted">Concert Coldplay - 2 tickets</p>
+                                                <small class="text-muted">
+                                                    <i class="fas fa-clock me-1"></i>
+                                                    Il y a 2 jours
+                                                </small>
+                                            </div>
+                                            <span class="badge bg-success">+179€</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="activity-item">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div>
+                                                <h6 class="mb-1">Événement assisté</h6>
+                                                <p class="mb-1 text-muted">Hamlet - Théâtre de la Ville</p>
+                                                <small class="text-muted">
+                                                    <i class="fas fa-clock me-1"></i>
+                                                    Il y a 1 semaine
+                                                </small>
+                                            </div>
+                                            <span class="badge bg-info">Assisté</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="activity-item">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div>
+                                                <h6 class="mb-1">Inscription newsletter</h6>
+                                                <p class="mb-1 text-muted">Music Events Paris</p>
+                                                <small class="text-muted">
+                                                    <i class="fas fa-clock me-1"></i>
+                                                    Il y a 2 semaines
+                                                </small>
+                                            </div>
+                                            <span class="badge bg-primary">Newsletter</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Profile Tab -->
+                            <div class="tab-pane fade" id="profile" role="tabpanel">
+                                <form id="profileForm">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="firstName" value="Jean" required>
+                                                <label for="firstName">Prénom</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="lastName" value="Dupont" required>
+                                                <label for="lastName">Nom</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating">
+                                                <input type="email" class="form-control" id="email" value="jean.dupont@email.com" required>
+                                                <label for="email">Email</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating">
+                                                <input type="tel" class="form-control" id="phone" value="01 23 45 67 89">
+                                                <label for="phone">Téléphone</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-8 mb-3">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="address" value="123 Rue de la Paix">
+                                                <label for="address">Adresse</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="postalCode" value="75001">
+                                                <label for="postalCode">Code postal</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="city" value="Paris">
+                                                <label for="city">Ville</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating">
+                                                <select class="form-select" id="country">
+                                                    <option value="FR" selected>France</option>
+                                                    <option value="BE">Belgique</option>
+                                                    <option value="CH">Suisse</option>
+                                                    <option value="CA">Canada</option>
+                                                </select>
+                                                <label for="country">Pays</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <div class="form-floating">
+                                            <textarea class="form-control" id="bio" style="height: 100px" placeholder="Parlez-nous de vous...">Passionné de musique et de théâtre, j'aime découvrir de nouveaux événements culturels.</textarea>
+                                            <label for="bio">Bio</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="text-end">
+                                        <button type="button" class="btn btn-outline-secondary me-2">Annuler</button>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-save me-2"></i>Sauvegarder
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Security Tab -->
+                            <div class="tab-pane fade" id="security" role="tabpanel">
+                                <div class="security-item">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-1">Mot de passe</h6>
+                                            <small class="text-muted">Dernière modification: il y a 3 mois</small>
+                                        </div>
+                                        <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                                            Modifier
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="security-item">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-1">Authentification à deux facteurs</h6>
+                                            <small class="text-muted">Protection supplémentaire pour votre compte</small>
+                                        </div>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="twoFactorAuth">
+                                            <label class="form-check-label" for="twoFactorAuth"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="security-item">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-1">Sessions actives</h6>
+                                            <small class="text-muted">Gérer vos connexions</small>
+                                        </div>
+                                        <button class="btn btn-outline-warning btn-sm">
+                                            Voir tout
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="security-item">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-1 text-danger">Supprimer le compte</h6>
+                                            <small class="text-muted">Action irréversible</small>
+                                        </div>
+                                        <button class="btn btn-outline-danger btn-sm" onclick="confirmAccountDeletion()">
+                                            Supprimer
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Preferences Tab -->
+                            <div class="tab-pane fade" id="preferences" role="tabpanel">
+                                <div class="preference-card">
+                                    <h6 class="fw-bold mb-3">
+                                        <i class="fas fa-envelope me-2 text-primary"></i>
+                                        Notifications email
+                                    </h6>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="emailNewEvents" checked>
+                                        <label class="form-check-label" for="emailNewEvents">
+                                            Nouveaux événements
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="emailPromotions" checked>
+                                        <label class="form-check-label" for="emailPromotions">
+                                            Promotions et offres spéciales
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="emailReminders">
+                                        <label class="form-check-label" for="emailReminders">
+                                            Rappels d'événements
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="preference-card">
+                                    <h6 class="fw-bold mb-3">
+                                        <i class="fas fa-heart me-2 text-danger"></i>
+                                        Préférences d'événements
+                                    </h6>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="prefMusic" checked>
+                                                <label class="form-check-label" for="prefMusic">Musique</label>
+                                            </div>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="prefTheatre" checked>
+                                                <label class="form-check-label" for="prefTheatre">Théâtre</label>
+                                            </div>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="prefSports">
+                                                <label class="form-check-label" for="prefSports">Sports</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="prefCulture">
+                                                <label class="form-check-label" for="prefCulture">Culture</label>
+                                            </div>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="prefTech">
+                                                <label class="form-check-label" for="prefTech">Technologie</label>
+                                            </div>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="prefFestivals">
+                                                <label class="form-check-label" for="prefFestivals">Festivals</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="preference-card">
+                                    <h6 class="fw-bold mb-3">
+                                        <i class="fas fa-globe me-2 text-info"></i>
+                                        Préférences générales
+                                    </h6>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Langue</label>
+                                            <select class="form-select">
+                                                <option value="fr" selected>Français</option>
+                                                <option value="en">English</option>
+                                                <option value="es">Español</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label class="form-label">Devise</label>
+                                            <select class="form-select">
+                                                <option value="EUR" selected>Euro (€)</option>
+                                                <option value="USD">Dollar ($)</option>
+                                                <option value="CHF">Franc suisse (CHF)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="text-end">
+                                    <button type="button" class="btn btn-primary">
+                                        <i class="fas fa-save me-2"></i>Sauvegarder les préférences
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="changePasswordModalLabel">Changer le mot de passe</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="changePasswordForm">
+                        <div class="mb-3">
+                            <label for="currentPassword" class="form-label">Mot de passe actuel</label>
+                            <input type="password" class="form-control" id="currentPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">Nouveau mot de passe</label>
+                            <input type="password" class="form-control" id="newPassword" required>
+                            <div class="form-text">Au moins 8 caractères avec majuscules, minuscules et chiffres</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirmer le nouveau mot de passe</label>
+                            <input type="password" class="form-control" id="confirmPassword" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" onclick="changePassword()">Changer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script>
+        // Profile form submission
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            MultiBilleterie.showNotification('Profil mis à jour avec succès!', 'success');
+        });
+
+        // Change password
+        function changePassword() {
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                MultiBilleterie.showNotification('Veuillez remplir tous les champs', 'error');
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+                MultiBilleterie.showNotification('Les mots de passe ne correspondent pas', 'error');
+                return;
+            }
+
+            if (newPassword.length < 8) {
+                MultiBilleterie.showNotification('Le mot de passe doit contenir au moins 8 caractères', 'error');
+                return;
+            }
+
+            // Simulate API call
+            MultiBilleterie.showNotification('Changement du mot de passe...', 'info');
+            setTimeout(() => {
+                MultiBilleterie.showNotification('Mot de passe changé avec succès!', 'success');
+                bootstrap.Modal.getInstance(document.getElementById('changePasswordModal')).hide();
+                document.getElementById('changePasswordForm').reset();
+            }, 1500);
+        }
+
+        // Confirm account deletion
+        function confirmAccountDeletion() {
+            if (confirm('Êtes-vous absolument sûr de vouloir supprimer votre compte ? Cette action est irréversible.')) {
+                if (confirm('Toutes vos données seront perdues. Tapez "SUPPRIMER" pour confirmer:')) {
+                    const confirmation = prompt('Tapez "SUPPRIMER" pour confirmer:');
+                    if (confirmation === 'SUPPRIMER') {
+                        MultiBilleterie.showNotification('Suppression du compte en cours...', 'info');
+                        setTimeout(() => {
+                            MultiBilleterie.showNotification('Compte supprimé. Au revoir!', 'success');
+                            setTimeout(() => {
+                                window.location.href = '/';
+                            }, 2000);
+                        }, 2000);
+                    }
+                }
+            }
+        }
+
+        // Two-factor authentication toggle
+        document.getElementById('twoFactorAuth').addEventListener('change', function() {
+            if (this.checked) {
+                MultiBilleterie.showNotification('Authentification à deux facteurs activée', 'success');
+            } else {
+                MultiBilleterie.showNotification('Authentification à deux facteurs désactivée', 'warning');
+            }
+        });
+
+        // Logout function
+        function logout() {
+            if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
+                MultiBilleterie.showNotification('Déconnexion en cours...', 'info');
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1000);
+            }
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Any initialization code here
+        });
+    </script>
+</body>
+</html>

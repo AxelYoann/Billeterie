@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Billeterie - Plateforme de Billetterie Moderne</title>
+    <meta name="description" content="Plateforme moderne de multi-billeterie permettant aux prestataires de créer leur propre billetterie et aux clients d'acheter des tickets.">
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Prism.js pour la coloration syntaxique -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #64748b;
+            --accent-color: #f59e0b;
+            --dark-color: #1e293b;
+            --light-color: #f8fafc;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--dark-color) 100%);
+            color: white;
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="white" opacity="0.05"><polygon points="0,0 1000,0 1000,60 0,100"/></svg>');
+            background-size: cover;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .tech-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            margin: 0.25rem;
+            background: var(--light-color);
+            border: 1px solid var(--secondary-color);
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+        
+        .demo-section {
+            background: var(--light-color);
+        }
+        
+        .code-block {
+            background: #2d3748;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+        
+        .navbar {
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+        }
+        
+        .stats-section {
+            background: var(--dark-color);
+            color: white;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            display: block;
+        }
+        
+        .architecture-diagram {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin: 2rem 0;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--primary-color);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 2rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            margin-left: -5px;
+        }
+        
+        .hero-demo-image {
+            border: 3px solid rgba(255,255,255,0.2);
+        }
+        
+        .hero-demo-image-alt {
+            border: 3px solid rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#home">
+                <i class="fas fa-ticket-alt text-primary me-2"></i>
+                Multi-Billeterie
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#features">Fonctionnalités</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#demo">Démo</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#architecture">Architecture</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#installation">Installation</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#roadmap">Roadmap</a></li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary ms-2" href="https://github.com/your-username/multi-billeterie" target="_blank" rel="noopener">
+                            <i class="fab fa-github me-1"></i> GitHub
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container hero-content">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold mb-4">
+                        Plateforme de <span class="text-warning">Multi-Billeterie</span> Moderne
+                    </h1>
+                    <p class="lead mb-4">
+                        Une solution complète permettant aux prestataires de créer leur propre billetterie 
+                        et aux clients d'acheter des tickets dans n'importe quelle billeterie. 
+                        Architecture MVC, Clean Code, et technologies modernes.
+                    </p>
+                    <div class="d-flex flex-wrap gap-3 mb-4">
+                        <a href="#installation" class="btn btn-warning btn-lg">
+                            <i class="fas fa-download me-2"></i>
+                            Commencer
+                        </a>
+                        <a href="https://github.com/your-username/multi-billeterie" class="btn btn-outline-light btn-lg" target="_blank" rel="noopener">
+                            <i class="fab fa-github me-2"></i>
+                            Voir sur GitHub
+                        </a>
+                        <a href="#demo" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-play me-2"></i>
+                            Voir la Démo
+                        </a>
+                    </div>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="tech-badge"><i class="fab fa-node-js me-1"></i>Node.js</span>
+                        <span class="tech-badge"><i class="fas fa-database me-1"></i>MongoDB</span>
+                        <span class="tech-badge"><i class="fab fa-bootstrap me-1"></i>Bootstrap 5</span>
+                        <span class="tech-badge"><i class="fab fa-docker me-1"></i>Docker</span>
+                        <img src="https://via.placeholder.com/600x400/2563eb/ffffff?text=Multi-Billeterie+Demo" 
+                             alt="Multi-Billeterie Demo" 
+                             class="img-fluid rounded shadow-lg hero-demo-image-alt">
+                        <img src="https://via.placeholder.com/600x400/2563eb/ffffff?text=Multi-Billeterie+Demo" 
+                             alt="Multi-Billeterie Demo" 
+                             class="img-fluid rounded shadow-lg"
+                             style="border: 3px solid rgba(255,255,255,0.2);">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 stat-item">
+                    <span class="stat-number">100%</span>
+                    <p class="mb-0">Open Source</p>
+                </div>
+                <div class="col-md-3 stat-item">
+                    <span class="stat-number">8k+</span>
+                    <p class="mb-0">Lignes de Code</p>
+                </div>
+                <div class="col-md-3 stat-item">
+                    <span class="stat-number">90%+</span>
+                    <p class="mb-0">Test Coverage</p>
+                </div>
+                <div class="col-md-3 stat-item">
+                    <span class="stat-number">50+</span>
+                    <p class="mb-0">Tests Automatisés</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold">Fonctionnalités Principales</h2>
+                <p class="lead text-muted">Découvrez ce qui rend Multi-Billeterie unique</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center p-4">
+                            <i class="fas fa-store fa-3x text-primary mb-3"></i>
+                            <h5 class="card-title">Multi-Billeterie</h5>
+                            <p class="card-text">Chaque prestataire peut créer et gérer sa propre billetterie avec des événements personnalisés.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center p-4">
+                            <i class="fas fa-shield-alt fa-3x text-success mb-3"></i>
+                            <h5 class="card-title">Sécurité Renforcée</h5>
+                            <p class="card-text">Authentification JWT, hashage bcrypt, rate limiting, CORS et headers de sécurité.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center p-4">
+                            <i class="fas fa-mobile-alt fa-3x text-warning mb-3"></i>
+                            <h5 class="card-title">Design Responsive</h5>
+                            <p class="card-text">Interface moderne avec Bootstrap 5, optimisée pour tous les appareils.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center p-4">
+                            <i class="fas fa-qrcode fa-3x text-info mb-3"></i>
+                            <h5 class="card-title">Tickets QR Code</h5>
+                            <p class="card-text">Génération automatique de codes QR pour la validation des tickets à l'entrée.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center p-4">
+                            <i class="fas fa-chart-bar fa-3x text-danger mb-3"></i>
+                            <h5 class="card-title">Dashboard Analytics</h5>
+                            <p class="card-text">Statistiques en temps réel pour les prestataires avec graphiques et métriques.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card feature-card h-100">
+                        <div class="card-body text-center p-4">
+                            <i class="fas fa-cogs fa-3x text-secondary mb-3"></i>
+                            <h5 class="card-title">API REST</h5>
+                            <p class="card-text">API complète pour intégrations tierces et développement d'applications mobiles.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="demo-section py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold">Démo Interactive</h2>
+                <p class="lead text-muted">Explorez l'interface et les fonctionnalités</p>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <ul class="nav nav-tabs" id="demoTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-pane" type="button" role="tab">
+                                        <i class="fas fa-home me-1"></i> Accueil
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="events-tab" data-bs-toggle="tab" data-bs-target="#events-pane" type="button" role="tab">
+                                        <i class="fas fa-calendar me-1"></i> Événements
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="dashboard-tab" data-bs-toggle="tab" data-bs-target="#dashboard-pane" type="button" role="tab">
+                                        <i class="fas fa-chart-bar me-1"></i> Dashboard
+                                    </button>
+                                </li>
+                            </ul>
+                            <div class="tab-content mt-3" id="demoTabContent">
+                                <div class="tab-pane fade show active" id="home-pane" role="tabpanel">
+                                    <img src="https://via.placeholder.com/700x400/f8fafc/2563eb?text=Page+d%27Accueil" 
+                                         alt="Page d'accueil" class="img-fluid rounded">
+                                    <p class="mt-3 text-muted">Interface d'accueil moderne avec recherche d'événements et filtres avancés.</p>
+                                </div>
+                                <div class="tab-pane fade" id="events-pane" role="tabpanel">
+                                    <img src="https://via.placeholder.com/700x400/f8fafc/059669?text=Gestion+Événements" 
+                                         alt="Gestion des événements" class="img-fluid rounded">
+                                    <p class="mt-3 text-muted">Interface de gestion des événements pour les prestataires avec CRUD complet.</p>
+                                </div>
+                                <div class="tab-pane fade" id="dashboard-pane" role="tabpanel">
+                                    <img src="https://via.placeholder.com/700x400/f8fafc/dc2626?text=Dashboard+Analytics" 
+                                         alt="Dashboard analytics" class="img-fluid rounded">
+                                    <p class="mt-3 text-muted">Dashboard avec statistiques de vente, graphiques et métriques en temps réel.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section id="architecture" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold">Architecture & Technologies</h2>
+                <p class="lead text-muted">Une architecture moderne et scalable</p>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="architecture-diagram">
+                        <h4 class="text-center mb-4">Architecture MVC</h4>
+                        <div class="row text-center">
+                            <div class="col-md-4 mb-3">
+                                <div class="p-3 bg-primary text-white rounded">
+                                    <i class="fas fa-eye fa-2x mb-2"></i>
+                                    <h6>Views (EJS)</h6>
+                                    <small>Templates & UI</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="p-3 bg-success text-white rounded">
+                                    <i class="fas fa-cogs fa-2x mb-2"></i>
+                                    <h6>Controllers</h6>
+                                    <small>Logique métier</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <div class="p-3 bg-warning text-white rounded">
+                                    <i class="fas fa-database fa-2x mb-2"></i>
+                                    <h6>Models (MongoDB)</h6>
+                                    <small>Données & ORM</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-md-6">
+                    <h4>Technologies Frontend</h4>
+                    <ul class="list-unstyled">
+                        <li><i class="fab fa-bootstrap text-primary me-2"></i> Bootstrap 5</li>
+                        <li><i class="fab fa-js text-warning me-2"></i> JavaScript ES6+</li>
+                        <li><i class="fas fa-code text-info me-2"></i> EJS Templates</li>
+                        <li><i class="fas fa-mobile-alt text-success me-2"></i> Responsive Design</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h4>Technologies Backend</h4>
+                    <ul class="list-unstyled">
+                        <li><i class="fab fa-node-js text-success me-2"></i> Node.js + Express</li>
+                        <li><i class="fas fa-database text-primary me-2"></i> MongoDB + Mongoose</li>
+                        <li><i class="fas fa-shield-alt text-danger me-2"></i> JWT Authentication</li>
+                        <li><i class="fab fa-docker text-info me-2"></i> Docker Support</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation Section -->
+    <section id="installation" class="demo-section py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold">Installation Rapide</h2>
+                <p class="lead text-muted">Démarrez en quelques minutes</p>
+            </div>
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4><i class="fab fa-windows text-primary me-2"></i>Windows</h4>
+                            <div class="code-block">
+<pre><code class="language-batch">git clone https://github.com/your-username/multi-billeterie.git
+cd multi-billeterie
+setup.bat</code></pre>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h4><i class="fab fa-linux text-warning me-2"></i>Linux/macOS</h4>
+                            <div class="code-block">
+<pre><code class="language-bash">git clone https://github.com/your-username/multi-billeterie.git
+cd multi-billeterie
+chmod +x setup.sh && ./setup.sh</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mt-4">
+                        <h5>Ou avec Node.js directement :</h5>
+                        <div class="code-block">
+<pre><code class="language-bash">npm install
+npm run setup
+npm run dev</code></pre>
+                        </div>
+                    </div>
+                    <div class="alert alert-info mt-4">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Prérequis :</strong> Node.js 18+, MongoDB, Git
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap Section -->
+    <section id="roadmap" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold">Roadmap</h2>
+                <p class="lead text-muted">Fonctionnalités à venir</p>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <h5 class="text-success">✅ v1.0.0 - Version Actuelle</h5>
+                            <p class="text-muted">Architecture MVC complète, authentification JWT, multi-billeterie, tests automatisés</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h5 class="text-primary">🚧 v1.1.0 - Q1 2025</h5>
+                            <p class="text-muted">Intégration paiements Stripe/PayPal, notifications push, API GraphQL</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h5 class="text-warning">📋 v1.2.0 - Q2 2025</h5>
+                            <p class="text-muted">Application mobile React Native, PWA, mode offline</p>
+                        </div>
+                        <div class="timeline-item">
+                            <h5 class="text-info">💡 v2.0.0 - Q3 2025</h5>
+                            <p class="text-muted">IA pour recommandations, blockchain pour tickets, marketplace</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-ticket-alt me-2"></i>Multi-Billeterie</h5>
+                    <p class="text-muted">Plateforme moderne de multi-billeterie avec architecture MVC et technologies modernes.</p>
+                    <div class="d-flex gap-3">
+                        <a href="https://github.com/your-username/multi-billeterie" class="text-white">
+                            <i class="fab fa-github fa-2x"></i>
+                        </a>
+                        <a href="#" class="text-white">
+                            <i class="fab fa-twitter fa-2x"></i>
+                        </a>
+                        <a href="#" class="text-white">
+                            <i class="fab fa-linkedin fa-2x"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h6>Documentation</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="https://github.com/your-username/multi-billeterie#readme" class="text-muted">Guide d'installation</a></li>
+                        <li><a href="https://github.com/your-username/multi-billeterie/blob/main/DEPLOYMENT.md" class="text-muted">Guide de déploiement</a></li>
+                        <li><a href="https://github.com/your-username/multi-billeterie/blob/main/CONTRIBUTING.md" class="text-muted">Contribuer</a></li>
+                        <li><a href="https://github.com/your-username/multi-billeterie/blob/main/CHANGELOG.md" class="text-muted">Changelog</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Communauté</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="https://github.com/your-username/multi-billeterie/issues" class="text-muted">Issues</a></li>
+                        <li><a href="https://github.com/your-username/multi-billeterie/discussions" class="text-muted">Discussions</a></li>
+                        <li><a href="https://github.com/your-username/multi-billeterie/security" class="text-muted">Sécurité</a></li>
+                        <li><a href="https://github.com/your-username/multi-billeterie/blob/main/LICENSE" class="text-muted">Licence MIT</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center text-muted">
+                <p>&copy; 2025 Multi-Billeterie. Distribué sous licence MIT.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    
+    <script>
+        // Smooth scrolling pour les liens d'ancrage
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animation des compteurs
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            counters.forEach(counter => {
+                const target = counter.textContent;
+                const numericTarget = parseInt(target.replace(/[^\d]/g, ''));
+                let current = 0;
+                const increment = numericTarget / 100;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= numericTarget) {
+                        current = numericTarget;
+                        clearInterval(timer);
+                    }
+                    if (target.includes('%')) {
+                        counter.textContent = Math.round(current) + '%';
+                    } else if (target.includes('k')) {
+                        counter.textContent = (current / 1000).toFixed(1) + 'k+';
+                    } else {
+                        counter.textContent = Math.round(current) + '+';
+                    }
+                }, 20);
+            });
+        }
+
+        // Observer pour déclencher l'animation des compteurs
+        const statsSection = document.querySelector('.stats-section');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    observer.unobserve(entry.target);
+                }
+            });
+        });
+        observer.observe(statsSection);
+
+        // Navbar transparente
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+            }
+        });
+    </script>
+</body>
+</html>

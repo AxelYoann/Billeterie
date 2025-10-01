@@ -1,0 +1,50 @@
+{
+  "version": 2,
+  "name": "multi-billeterie",
+  "builds": [
+    {
+      "src": "src/app.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "public/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/public/(.*)",
+      "dest": "/public/$1"
+    },
+    {
+      "src": "/health",
+      "dest": "/src/app.js"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/src/app.js"
+    },
+    {
+      "src": "/auth/(.*)",
+      "dest": "/src/app.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/src/app.js"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "functions": {
+    "src/app.js": {
+      "includeFiles": "src/**",
+      "excludeFiles": [
+        "node_modules/**",
+        "tests/**",
+        ".git/**"
+      ]
+    }
+  },
+  "regions": ["fra1"]
+}
