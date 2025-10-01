@@ -1,19 +1,19 @@
-# 🎫 Multi-Billeterie
+# 🎫 Billeterie
 
-Une plateforme moderne de multi-billeterie permettant aux prestataires de créer leur propre billetterie et aux clients d'acheter des tickets dans n'importe quelle billeterie.
+Une plateforme moderne de Billeterie permettant aux prestataires de créer leur propre billetterie et aux clients d'acheter des tickets dans n'importe quelle billeterie.
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Node.js](https://img.shields.io/badge/node.js-v18+-green.svg)
 ![Express](https://img.shields.io/badge/express-v4.18+-lightgrey.svg)
 ![MongoDB](https://img.shields.io/badge/mongodb-v6.0+-green.svg)
 ![Bootstrap](https://img.shields.io/badge/bootstrap-v5.3+-purple.svg)
-[![CI/CD](https://github.com/your-username/multi-billeterie/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/your-username/multi-billeterie/actions/workflows/ci-cd.yml)
-[![GitHub Pages](https://github.com/your-username/multi-billeterie/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/your-username/multi-billeterie/actions/workflows/deploy-pages.yml)
-[![Live Demo](https://img.shields.io/badge/Live-Demo-blue?style=flat&logo=github)](https://your-username.github.io/multi-billeterie/)
+[![CI/CD](https://github.com/your-username/Billeterie/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/your-username/Billeterie/actions/workflows/ci-cd.yml)
+[![GitHub Pages](https://github.com/your-username/Billeterie/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/your-username/Billeterie/actions/workflows/deploy-pages.yml)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-blue?style=flat&logo=github)](https://your-username.github.io/Billeterie/)
 
 ## 🌐 Demo Live & Documentation
 
-🔗 **[Voir la Demo Live et Documentation Complète](https://AxelYoann.github.io/multi-billeterie/)**
+🔗 **[Voir la Demo Live et Documentation Complète](https://AxelYoann.github.io/Billeterie/)**
 
 Notre page GitHub Pages inclut :
 - 📄 Landing page professionnelle
@@ -79,23 +79,23 @@ src/
 
 **Windows :**
 ```cmd
-git clone https://github.com/your-username/multi-billeterie.git
-cd multi-billeterie
+git clone https://github.com/your-username/Billeterie.git
+cd Billeterie
 setup.bat
 ```
 
 **Linux/macOS :**
 ```bash
-git clone https://github.com/your-username/multi-billeterie.git
-cd multi-billeterie
+git clone https://github.com/your-username/Billeterie.git
+cd Billeterie
 chmod +x setup.sh
 ./setup.sh
 ```
 
 **Ou avec Node.js :**
 ```bash
-git clone https://github.com/your-username/multi-billeterie.git
-cd multi-billeterie
+git clone https://github.com/your-username/Billeterie.git
+cd Billeterie
 npm install
 npm run setup
 ```
@@ -104,8 +104,8 @@ npm run setup
 
 1. **Cloner le repository**
    ```bash
-   git clone https://github.com/your-username/multi-billeterie.git
-   cd multi-billeterie
+   git clone https://github.com/your-username/Billeterie.git
+   cd Billeterie
    ```
 
 2. **Installer les dépendances**
@@ -130,7 +130,7 @@ npm run setup
 Créez un fichier `.env` à la racine du projet avec:
 ```
 PORT=3000
-MONGODB_URI=mongodb://localhost:27017/multi-billeterie
+MONGODB_URI=mongodb://localhost:27017/Billeterie
 JWT_SECRET=votre_jwt_secret_ici
 NODE_ENV=development
 ```
@@ -143,7 +143,7 @@ npm test
 
 ## 🚀 Déploiement
 
-Multi-Billeterie peut être déployé sur plusieurs plateformes. Consultez notre [Guide de Déploiement Complet](DEPLOYMENT.md) pour des instructions détaillées.
+Billeterie peut être déployé sur plusieurs plateformes. Consultez notre [Guide de Déploiement Complet](DEPLOYMENT.md) pour des instructions détaillées.
 
 ### Options de déploiement
 
@@ -157,8 +157,8 @@ Multi-Billeterie peut être déployé sur plusieurs plateformes. Consultez notre
 
 ```bash
 # Build et run
-docker build -t multi-billeterie .
-docker run -p 3000:3000 multi-billeterie
+docker build -t Billeterie .
+docker run -p 3000:3000 Billeterie
 
 # Ou avec Docker Compose
 docker-compose up -d
@@ -170,7 +170,7 @@ docker-compose up -d
 
 Une **page de présentation professionnelle** est automatiquement déployée sur GitHub Pages :
 
-🔗 **[Voir la Demo Live](https://your-username.github.io/multi-billeterie/)**
+🔗 **[Voir la Demo Live](https://your-username.github.io/Billeterie/)**
 
 ### Configuration automatique :
 ```bash
@@ -209,9 +209,9 @@ Les contributions sont les bienvenues ! Consultez notre [Guide de Contribution](
 
 ## 📞 Support
 
-- 📖 [Documentation complète](https://your-username.github.io/multi-billeterie/)
-- 🐛 [Signaler un bug](https://github.com/your-username/multi-billeterie/issues)
-- 💬 [Discussions](https://github.com/your-username/multi-billeterie/discussions)
+- 📖 [Documentation complète](https://your-username.github.io/Billeterie/)
+- 🐛 [Signaler un bug](https://github.com/your-username/Billeterie/issues)
+- 💬 [Discussions](https://github.com/your-username/Billeterie/discussions)
 - 📧 [Contact](mailto:contact@votre-domaine.com)
 
 ## ⭐ Remerciements
