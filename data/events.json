@@ -1,0 +1,485 @@
+[
+  {
+    "title": "Exposition Historique - Paris",
+    "description": "Exposition Historique organisé par EventPro Paris. Un événement exceptionnel à ne pas manquer ! Venez découvrir une expérience unique dans une ambiance conviviale et professionnelle.",
+    "category": "Exposition",
+    "startDate": "2025-12-20T18:39:49.033Z",
+    "endDate": "2025-12-21T01:39:49.033Z",
+    "location": "Centre Culturel de Paris",
+    "capacity": 300,
+    "price": 150,
+    "providerId": "68dd7572e7ab8560afac1e3c",
+    "isActive": true,
+    "tags": [
+      "exposition",
+      "paris",
+      "événement",
+      "culture"
+    ],
+    "images": [
+      "https://picsum.photos/800/600?random=0"
+    ],
+    "createdAt": "2025-09-02T18:39:49.038Z",
+    "_id": "68dd7575e7ab8560afac1e42"
+  },
+  {
+    "title": "Marathon de la Ville - Paris",
+    "description": "Marathon de la Ville organisé par EventPro Paris. Un événement exceptionnel à ne pas manquer ! Venez découvrir une expérience unique dans une ambiance conviviale et professionnelle.",
+    "category": "Sport",
+    "startDate": "2025-11-10T18:39:49.038Z",
+    "endDate": "2025-11-11T01:39:49.038Z",
+    "location": "Centre Culturel de Paris",
+    "capacity": 1000,
+    "price": 50,
+    "providerId": "68dd7572e7ab8560afac1e3c",
+    "isActive": true,
+    "tags": [
+      "sport",
+      "paris",
+      "événement",
+      "culture"
+    ],
+    "images": [
+      "https://picsum.photos/800/600?random=1"
+    ],
+    "createdAt": "2025-09-08T18:39:49.038Z",
+    "_id": "68dd7575e7ab8560afac1e43"
+  },
+  {
+    "title": "Conférence Tech Innovation - Paris",
+    "description": "Conférence Tech Innovation organisé par EventPro Paris. Un événement exceptionnel à ne pas manquer ! Venez découvrir une expérience unique dans une ambiance conviviale et professionnelle.",
+    "category": "Conférence",
+    "startDate": "2025-12-07T18:39:49.038Z",
+    "endDate": "2025-12-07T20:39:49.038Z",
+    "location": "Centre Culturel de Paris",
+    "capacity": 500,
+    "price": 100,
+    "providerId": "68dd7572e7ab8560afac1e3c",
+    "isActive": true,
+    "tags": [
+      "conférence",
+      "paris",
+      "événement",
+      "culture"
+    ],
+    "images": [
+      "https://picsum.photos/800/600?random=2"
+    ],
+    "createdAt": "2025-09-15T18:39:49.038Z",
+    "_id": "68dd7575e7ab8560afac1e44"
+  },
+  {
+    "title": "Course à Pied Caritative - Paris",
+    "description": "Course à Pied Caritative organisé par EventPro Paris. Un événement exceptionnel à ne pas manquer ! Venez découvrir une expérience unique dans une ambiance conviviale et professionnelle.",
+    "category": "Sport",
+    "startDate": "2026-02-03T18:39:49.038Z",
+    "endDate": "2026-02-04T00:39:49.038Z",
+    "location": "Centre Culturel de Paris",
+    "capacity": 1000,
+    "price": 25,
+    "providerId": "68dd7572e7ab8560afac1e3c",
+    "isActive": true,
+    "tags": [
+      "sport",
+      "paris",
+      "événement",
+      "culture"
+    ],
+    "images": [
+      "https://picsum.photos/800/600?random=3"
+    ],
+    "createdAt": "2025-09-09T18:39:49.038Z",
+    "_id": "68dd7575e7ab8560afac1e45"
+  },
+  {
+    "title": "Pièce Contemporaine - Paris",
+    "description": "Pièce Contemporaine organisé par EventPro Paris. Un événement exceptionnel à ne pas manquer ! Venez découvrir une expérience unique dans une ambiance conviviale et professionnelle.",
+    "category": "Théâtre",
+    "startDate": "2026-03-06T18:39:49.038Z",
+    "endDate": "2026-03-07T02:39:49.038Z",
+    "location": "Centre Culturel de Paris",
+    "capacity": 300,
+    "price": 150,
+    "providerId": "68dd7572e7ab8560afac1e3c",
+    "isActive": true,
+    "tags": [
+      "théâtre",
+      "paris",
+      "événement",
+      "culture"
+    ],
+    "images": [
+      "https://picsum.photos/800/600?random=4"
+    ],
+    "createdAt": "2025-09-27T18:39:49.038Z",
+    "_id": "68dd7575e7ab8560afac1e46"
+  },
+  {
+    "title": "Festival de Musique Classique - Lyon",
+    "description": "Festival de Musique Classique organisé par Spectacle Lyon. Un événement exceptionnel à ne pas manquer ! Venez découvrir une expérience unique dans une ambiance conviviale et professionnelle.",
+    "category": "Concert",
+    "startDate": "2026-03-11T18:39:49.040Z",
+    "endDate": "2026-03-11T21:39:49.040Z",
+    "location": "Centre Culturel de Lyon",
+    "capacity": 50,
+    "price": 50,
+    "providerId": "68dd7573e7ab8560afac1e3d",
+    "isActive": true,
+    "tags": [
+      "concert",
+      "lyon",
+      "événement",
+      "culture"
+    ],
+    "images": [
+      "https://picsum.photos/800/600?random=0"
+    ],
+    "createdAt": "2025-09-12T18:39:49.040Z",
+    "_id": "68dd7575e7ab8560afac1e47"
+  },
+  {
+    "title": "Soirée Rock Électrique - Lyon",
+    "description": "Soirée Rock Électrique organisé par Spectacle Lyon. Un événement exceptionnel à ne pas manquer ! Venez découvrir une expérience unique dans une ambiance conviviale et professionnelle.",
+    "category": "Concert",
+    "startDate": "2026-02-20T18:39:49.040Z",
+    "endDate": "2026-02-20T22:39:49.040Z",
+    "location": "Centre Culturel de Lyon",
+    "capacity": 500,
+    "price": 15,
+    "providerId": "68dd7573e7ab8560afac1e3d",
+    "isActive": true,
+    "tags": [
+      "concert",
+      "lyon",
+      "événement",
+      "culture"
+    ],
+    "images": [
+      "https://picsum.photos/800/600?random=1"
+    ],
+    "createdAt": "2025-09-28T18:39:49.040Z",
+    "_id": "68dd7575e7ab8560afac1e48"
+  },
+  {
+    "title": "Soirée Rock Électrique - Lyon",
+    "description": "Soirée Rock Électrique organisé par Spectacle Lyon. Un événement exceptionnel à ne pas manquer ! Venez découvrir une expérience unique dans une ambiance conviviale et professionnelle.",
+    "category": "Concert",
+    "startDate": "2025-12-29T18:39:49.040Z",
+    "endDate": "2025-12-30T03:39:49.040Z",
+    "location": "Centre Culturel de Lyon",
+    "capacity": 500,
+    "price": 25,
+    "providerId": "68dd7573e7ab8560afac1e3d",
+    "isActive": true,
+    "tags": [
+      "concert",
+      "lyon",
+      "événement",
+      "culture"
+    ],
+    "images": [
+      "https://picsum.photos/800/600?random=2"
+    ],
+    "createdAt": "2025-09-09T18:39:49.040Z",
+    "_id": "68dd7575e7ab8560afac1e49"
+  },
+  {
+    "title": "Pièce Contemporaine - Lyon",
+    "description": "Pièce Contemporaine organisé par Spectacle Lyon. Un événement exceptionnel à ne pas manquer ! Venez découvrir une expérience unique dans une ambiance conviviale et professionnelle.",
+    "category": "Théâtre",
+    "startDate": "2026-03-11T18:39:49.040Z",
+    "endDate": "2026-03-11T21:39:49.040Z",
+    "location": "Centre Culturel de Lyon",
+    "capacity": 1000,
+    "price": 15,
+    "providerId": "68dd7573e7ab8560afac1e3d",
+    "isActive": true,
+    "tags": [
+      "théâtre",
+      "lyon",
+      "événement",
+      "culture"
+    ],
+    "images": [
+      "https://picsum.photos/800/600?random=3"
+    ],
+    "createdAt": "2025-09-25T18:39:49.040Z",
+    "_id": "68dd7575e7ab8560afac1e4a"
+  },
+  {
+    "title": "Conférence Santé Bien-être - Marseille",
+    "description": "Conférence Santé Bien-être organisé par Festival Sud. Un événement exceptionnel à ne pas manquer ! Venez découvrir une expérience unique dans une ambiance conviviale et professionnelle.",
+    "category": "Conférence",
+    "startDate": "2025-12-05T18:39:49.040Z",
+    "endDate": "2025-12-05T23:39:49.040Z",
+    "location": "Centre Culturel de Marseille",
+    "capacity": 1000,
+    "price": 50,
+    "providerId": "68dd7573e7ab8560afac1e3e",
+    "isActive": true,
+    "tags": [
+      "conférence",
+      "marseille",
+      "événement",
+      "culture"
+    ],
+    "images": [
+      "https://picsum.photos/800/600?random=0"
+    ],
+    "createdAt": "2025-09-18T18:39:49.041Z",
+    "_id": "68dd7575e7ab8560afac1e4b"
+  },
+  {
+    "title": "Concert Acoustique Intimiste - Marseille",
+    "description": "Concert Acoustique Intimiste organisé par Festival Sud. Un événement exceptionnel à ne pas manquer ! Venez découvrir une expérience unique dans une ambiance conviviale et professionnelle.",
+    "category": "Concert",
+    "startDate": "2025-12-14T18:39:49.041Z",
+    "endDate": "2025-12-15T03:39:49.041Z",
+    "location": "Centre Culturel de Marseille",
+    "capacity": 200,
+    "price": 25,
+    "providerId": "68dd7573e7ab8560afac1e3e",
+    "isActive": true,
+    "tags": [
+      "concert",
+      "marseille",
+      "événement",
+      "culture"
+    ],
+    "images": [
+      "https://picsum.photos/800/600?random=1"
+    ],
+    "createdAt": "2025-09-17T18:39:49.041Z",
+    "_id": "68dd7575e7ab8560afac1e4c"
+  },
+  {
+    "title": "Exposition Art Contemporain - Marseille",
+    "description": "Exposition Art Contemporain organisé par Festival Sud. Un événement exceptionnel à ne pas manquer ! Venez découvrir une expérience unique dans une ambiance conviviale et professionnelle.",
+    "category": "Exposition",
+    "startDate": "2026-01-30T18:39:49.041Z",
+    "endDate": "2026-01-30T21:39:49.041Z",
+    "location": "Centre Culturel de Marseille",
+    "capacity": 1000,
+    "price": 75,
+    "providerId": "68dd7573e7ab8560afac1e3e",
+    "isActive": true,
+    "tags": [
+      "exposition",
+      "marseille",
+      "événement",
+      "culture"
+    ],
+    "images": [
+      "https://picsum.photos/800/600?random=2"
+    ],
+    "createdAt": "2025-09-17T18:39:49.041Z",
+    "_id": "68dd7575e7ab8560afac1e4d"
+  },
+  {
+    "title": "Séminaire Business - Marseille",
+    "description": "Séminaire Business organisé par Festival Sud. Un événement exceptionnel à ne pas manquer ! Venez découvrir une expérience unique dans une ambiance conviviale et professionnelle.",
+    "category": "Conférence",
+    "startDate": "2026-03-26T18:39:49.041Z",
+    "endDate": "2026-03-26T21:39:49.041Z",
+    "location": "Centre Culturel de Marseille",
+    "capacity": 50,
+    "price": 100,
+    "providerId": "68dd7573e7ab8560afac1e3e",
+    "isActive": true,
+    "tags": [
+      "conférence",
+      "marseille",
+      "événement",
+      "culture"
+    ],
+    "images": [
+      "https://picsum.photos/800/600?random=3"
+    ],
+    "createdAt": "2025-09-10T18:39:49.041Z",
+    "_id": "68dd7575e7ab8560afac1e4e"
+  },
+  {
+    "title": "Soirée Électro Night - Marseille",
+    "description": "Soirée Électro Night organisé par Festival Sud. Un événement exceptionnel à ne pas manquer ! Venez découvrir une expérience unique dans une ambiance conviviale et professionnelle.",
+    "category": "Concert",
+    "startDate": "2025-10-03T18:39:49.041Z",
+    "endDate": "2025-10-04T01:39:49.041Z",
+    "location": "Centre Culturel de Marseille",
+    "capacity": 100,
+    "price": 15,
+    "providerId": "68dd7573e7ab8560afac1e3e",
+    "isActive": true,
+    "tags": [
+      "concert",
+      "marseille",
+      "événement",
+      "culture"
+    ],
+    "images": [
+      "https://picsum.photos/800/600?random=4"
+    ],
+    "createdAt": "2025-09-17T18:39:49.041Z",
+    "_id": "68dd7575e7ab8560afac1e4f"
+  },
+  {
+    "title": "Workshop Créativité - Bordeaux",
+    "description": "Workshop Créativité organisé par Sport Event Bordeaux. Un événement exceptionnel à ne pas manquer ! Venez découvrir une expérience unique dans une ambiance conviviale et professionnelle.",
+    "category": "Conférence",
+    "startDate": "2025-12-18T18:39:49.041Z",
+    "endDate": "2025-12-19T02:39:49.041Z",
+    "location": "Centre Culturel de Bordeaux",
+    "capacity": 1000,
+    "price": 15,
+    "providerId": "68dd7574e7ab8560afac1e3f",
+    "isActive": true,
+    "tags": [
+      "conférence",
+      "bordeaux",
+      "événement",
+      "culture"
+    ],
+    "images": [
+      "https://picsum.photos/800/600?random=0"
+    ],
+    "createdAt": "2025-10-01T18:39:49.041Z",
+    "_id": "68dd7575e7ab8560afac1e50"
+  },
+  {
+    "title": "Concert de Jazz sous les étoiles - Bordeaux",
+    "description": "Concert de Jazz sous les étoiles organisé par Sport Event Bordeaux. Un événement exceptionnel à ne pas manquer ! Venez découvrir une expérience unique dans une ambiance conviviale et professionnelle.",
+    "category": "Concert",
+    "startDate": "2025-10-21T18:39:49.041Z",
+    "endDate": "2025-10-21T21:39:49.041Z",
+    "location": "Centre Culturel de Bordeaux",
+    "capacity": 1000,
+    "price": 35,
+    "providerId": "68dd7574e7ab8560afac1e3f",
+    "isActive": true,
+    "tags": [
+      "concert",
+      "bordeaux",
+      "événement",
+      "culture"
+    ],
+    "images": [
+      "https://picsum.photos/800/600?random=1"
+    ],
+    "createdAt": "2025-09-29T18:39:49.041Z",
+    "_id": "68dd7575e7ab8560afac1e51"
+  },
+  {
+    "title": "Exposition Historique - Bordeaux",
+    "description": "Exposition Historique organisé par Sport Event Bordeaux. Un événement exceptionnel à ne pas manquer ! Venez découvrir une expérience unique dans une ambiance conviviale et professionnelle.",
+    "category": "Exposition",
+    "startDate": "2026-01-23T18:39:49.041Z",
+    "endDate": "2026-01-23T22:39:49.041Z",
+    "location": "Centre Culturel de Bordeaux",
+    "capacity": 50,
+    "price": 15,
+    "providerId": "68dd7574e7ab8560afac1e3f",
+    "isActive": true,
+    "tags": [
+      "exposition",
+      "bordeaux",
+      "événement",
+      "culture"
+    ],
+    "images": [
+      "https://picsum.photos/800/600?random=2"
+    ],
+    "createdAt": "2025-09-27T18:39:49.041Z",
+    "_id": "68dd7575e7ab8560afac1e52"
+  },
+  {
+    "title": "Soirée Électro Night - Bordeaux",
+    "description": "Soirée Électro Night organisé par Sport Event Bordeaux. Un événement exceptionnel à ne pas manquer ! Venez découvrir une expérience unique dans une ambiance conviviale et professionnelle.",
+    "category": "Concert",
+    "startDate": "2026-01-08T18:39:49.041Z",
+    "endDate": "2026-01-09T03:39:49.041Z",
+    "location": "Centre Culturel de Bordeaux",
+    "capacity": 300,
+    "price": 15,
+    "providerId": "68dd7574e7ab8560afac1e3f",
+    "isActive": true,
+    "tags": [
+      "concert",
+      "bordeaux",
+      "événement",
+      "culture"
+    ],
+    "images": [
+      "https://picsum.photos/800/600?random=3"
+    ],
+    "createdAt": "2025-09-12T18:39:49.041Z",
+    "_id": "68dd7575e7ab8560afac1e53"
+  },
+  {
+    "title": "Concert de Jazz sous les étoiles - Bordeaux",
+    "description": "Concert de Jazz sous les étoiles organisé par Sport Event Bordeaux. Un événement exceptionnel à ne pas manquer ! Venez découvrir une expérience unique dans une ambiance conviviale et professionnelle.",
+    "category": "Concert",
+    "startDate": "2026-03-30T18:39:49.041Z",
+    "endDate": "2026-03-31T03:39:49.041Z",
+    "location": "Centre Culturel de Bordeaux",
+    "capacity": 1000,
+    "price": 150,
+    "providerId": "68dd7574e7ab8560afac1e3f",
+    "isActive": true,
+    "tags": [
+      "concert",
+      "bordeaux",
+      "événement",
+      "culture"
+    ],
+    "images": [
+      "https://picsum.photos/800/600?random=4"
+    ],
+    "createdAt": "2025-09-28T18:39:49.041Z",
+    "_id": "68dd7575e7ab8560afac1e54"
+  },
+  {
+    "title": "Comédie Moderne - Bordeaux",
+    "description": "Comédie Moderne organisé par Sport Event Bordeaux. Un événement exceptionnel à ne pas manquer ! Venez découvrir une expérience unique dans une ambiance conviviale et professionnelle.",
+    "category": "Théâtre",
+    "startDate": "2025-11-20T18:39:49.041Z",
+    "endDate": "2025-11-20T23:39:49.041Z",
+    "location": "Centre Culturel de Bordeaux",
+    "capacity": 100,
+    "price": 25,
+    "providerId": "68dd7574e7ab8560afac1e3f",
+    "isActive": true,
+    "tags": [
+      "théâtre",
+      "bordeaux",
+      "événement",
+      "culture"
+    ],
+    "images": [
+      "https://picsum.photos/800/600?random=5"
+    ],
+    "createdAt": "2025-09-09T18:39:49.041Z",
+    "_id": "68dd7575e7ab8560afac1e55"
+  },
+  {
+    "title": "Sculptures Modernes - Bordeaux",
+    "description": "Sculptures Modernes organisé par Sport Event Bordeaux. Un événement exceptionnel à ne pas manquer ! Venez découvrir une expérience unique dans une ambiance conviviale et professionnelle.",
+    "category": "Exposition",
+    "startDate": "2025-12-14T18:39:49.041Z",
+    "endDate": "2025-12-15T03:39:49.041Z",
+    "location": "Centre Culturel de Bordeaux",
+    "capacity": 300,
+    "price": 35,
+    "providerId": "68dd7574e7ab8560afac1e3f",
+    "isActive": true,
+    "tags": [
+      "exposition",
+      "bordeaux",
+      "événement",
+      "culture"
+    ],
+    "images": [
+      "https://picsum.photos/800/600?random=6"
+    ],
+    "createdAt": "2025-09-23T18:39:49.041Z",
+    "_id": "68dd7575e7ab8560afac1e56"
+  }
+]

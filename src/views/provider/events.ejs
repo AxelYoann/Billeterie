@@ -1,0 +1,434 @@
+<%- include('../layouts/main', { page: 'provider/events' }) %>
+
+<script>
+// Contenu de la page events provider sera injecté ici
+</script>
+
+<div class="container-fluid py-4">
+  <!-- Header -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h1 class="h3 mb-0">
+            <i class="fas fa-calendar-alt text-primary me-2"></i>
+            Gestion des Événements
+          </h1>
+          <p class="text-muted mb-0">Créez et gérez vos événements</p>
+        </div>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createEventModal">
+          <i class="fas fa-plus me-2"></i>
+          Nouveau Événement
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filtres et recherche -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label class="form-label">Rechercher</label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="fas fa-search"></i>
+                </span>
+                <input type="text" class="form-control" id="searchEvents" placeholder="Nom d'événement...">
+              </div>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Statut</label>
+              <select class="form-select" id="filterStatus">
+                <option value="">Tous les statuts</option>
+                <option value="draft">Brouillon</option>
+                <option value="published">Publié</option>
+                <option value="cancelled">Annulé</option>
+                <option value="completed">Terminé</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Catégorie</label>
+              <select class="form-select" id="filterCategory">
+                <option value="">Toutes les catégories</option>
+                <option value="concert">Concert</option>
+                <option value="theatre">Théâtre</option>
+                <option value="conference">Conférence</option>
+                <option value="sport">Sport</option>
+                <option value="autre">Autre</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <label class="form-label">&nbsp;</label>
+              <button type="button" class="btn btn-outline-secondary d-block w-100" onclick="resetFilters()">
+                <i class="fas fa-refresh me-1"></i>
+                Reset
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Liste des événements -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Événement</th>
+                  <th>Date & Heure</th>
+                  <th>Lieu</th>
+                  <th>Statut</th>
+                  <th>Tickets</th>
+                  <th>Revenus</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="eventsTableBody">
+                <!-- Exemple d'événements -->
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <img src="https://via.placeholder.com/50x50/007bff/ffffff?text=🎵" class="rounded me-3" alt="Événement">
+                      <div>
+                        <h6 class="mb-0">Concert Jazz Fusion</h6>
+                        <small class="text-muted">Musique - Jazz</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <strong>15 Nov 2025</strong><br>
+                      <small class="text-muted">20h00 - 23h00</small>
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <strong>Salle Mozart</strong><br>
+                      <small class="text-muted">Paris 8ème</small>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge bg-success">Publié</span>
+                  </td>
+                  <td>
+                    <div class="text-center">
+                      <strong>67/100</strong><br>
+                      <div class="progress mt-1" style="height: 4px;">
+                        <div class="progress-bar bg-success" style="width: 67%"></div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <strong>2,010€</strong><br>
+                    <small class="text-muted">30€/ticket</small>
+                  </td>
+                  <td>
+                    <div class="btn-group" role="group">
+                      <button type="button" class="btn btn-sm btn-outline-primary" onclick="editEvent(1)">
+                        <i class="fas fa-edit"></i>
+                      </button>
+                      <button type="button" class="btn btn-sm btn-outline-info" onclick="viewStats(1)">
+                        <i class="fas fa-chart-bar"></i>
+                      </button>
+                      <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteEvent(1)">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <img src="https://via.placeholder.com/50x50/28a745/ffffff?text=🎭" class="rounded me-3" alt="Événement">
+                      <div>
+                        <h6 class="mb-0">Théâtre Contemporain</h6>
+                        <small class="text-muted">Théâtre - Drame</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <strong>22 Nov 2025</strong><br>
+                      <small class="text-muted">19h30 - 21h30</small>
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <strong>Scène Principale</strong><br>
+                      <small class="text-muted">Lyon 2ème</small>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge bg-warning">Bientôt</span>
+                  </td>
+                  <td>
+                    <div class="text-center">
+                      <strong>34/80</strong><br>
+                      <div class="progress mt-1" style="height: 4px;">
+                        <div class="progress-bar bg-warning" style="width: 42.5%"></div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <strong>1,020€</strong><br>
+                    <small class="text-muted">25€/ticket</small>
+                  </td>
+                  <td>
+                    <div class="btn-group" role="group">
+                      <button type="button" class="btn btn-sm btn-outline-primary" onclick="editEvent(2)">
+                        <i class="fas fa-edit"></i>
+                      </button>
+                      <button type="button" class="btn btn-sm btn-outline-info" onclick="viewStats(2)">
+                        <i class="fas fa-chart-bar"></i>
+                      </button>
+                      <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteEvent(2)">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <img src="https://via.placeholder.com/50x50/dc3545/ffffff?text=🎤" class="rounded me-3" alt="Événement">
+                      <div>
+                        <h6 class="mb-0">Conférence Tech 2025</h6>
+                        <small class="text-muted">Conférence - Technologie</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <strong>05 Déc 2025</strong><br>
+                      <small class="text-muted">14h00 - 18h00</small>
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <strong>Centre de Congrès</strong><br>
+                      <small class="text-muted">Marseille</small>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge bg-secondary">Brouillon</span>
+                  </td>
+                  <td>
+                    <div class="text-center">
+                      <strong>0/150</strong><br>
+                      <div class="progress mt-1" style="height: 4px;">
+                        <div class="progress-bar bg-secondary" style="width: 0%"></div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <strong>0€</strong><br>
+                    <small class="text-muted">15€/ticket</small>
+                  </td>
+                  <td>
+                    <div class="btn-group" role="group">
+                      <button type="button" class="btn btn-sm btn-outline-primary" onclick="editEvent(3)">
+                        <i class="fas fa-edit"></i>
+                      </button>
+                      <button type="button" class="btn btn-sm btn-outline-success" onclick="publishEvent(3)">
+                        <i class="fas fa-play"></i>
+                      </button>
+                      <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteEvent(3)">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="row mt-4">
+    <div class="col-12">
+      <nav aria-label="Navigation des événements">
+        <ul class="pagination justify-content-center">
+          <li class="page-item disabled">
+            <span class="page-link">Précédent</span>
+          </li>
+          <li class="page-item active">
+            <span class="page-link">1</span>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="#">2</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="#">3</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="#">Suivant</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de création d'événement -->
+<div class="modal fade" id="createEventModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="fas fa-plus me-2"></i>
+          Créer un Nouvel Événement
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="createEventForm">
+          <div class="row g-3">
+            <div class="col-md-8">
+              <label class="form-label">Nom de l'événement *</label>
+              <input type="text" class="form-control" name="name" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Catégorie *</label>
+              <select class="form-select" name="category" required>
+                <option value="">Choisir...</option>
+                <option value="concert">Concert</option>
+                <option value="theatre">Théâtre</option>
+                <option value="conference">Conférence</option>
+                <option value="sport">Sport</option>
+                <option value="autre">Autre</option>
+              </select>
+            </div>
+            
+            <div class="col-12">
+              <label class="form-label">Description</label>
+              <textarea class="form-control" name="description" rows="3"></textarea>
+            </div>
+            
+            <div class="col-md-6">
+              <label class="form-label">Date *</label>
+              <input type="date" class="form-control" name="date" required>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Heure début *</label>
+              <input type="time" class="form-control" name="start_time" required>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Heure fin</label>
+              <input type="time" class="form-control" name="end_time">
+            </div>
+            
+            <div class="col-md-6">
+              <label class="form-label">Lieu *</label>
+              <input type="text" class="form-control" name="venue" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Adresse</label>
+              <input type="text" class="form-control" name="address">
+            </div>
+            
+            <div class="col-md-4">
+              <label class="form-label">Prix du ticket (€) *</label>
+              <input type="number" class="form-control" name="price" min="0" step="0.01" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Capacité *</label>
+              <input type="number" class="form-control" name="capacity" min="1" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Statut</label>
+              <select class="form-select" name="status">
+                <option value="draft">Brouillon</option>
+                <option value="published">Publié</option>
+              </select>
+            </div>
+            
+            <div class="col-12">
+              <label class="form-label">Image de l'événement</label>
+              <input type="file" class="form-control" name="image" accept="image/*">
+              <div class="form-text">Formats acceptés: JPG, PNG, GIF. Taille max: 5MB</div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-primary" onclick="createEvent()">
+          <i class="fas fa-save me-2"></i>
+          Créer l'Événement
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Fonctions JavaScript pour la gestion des événements
+function editEvent(eventId) {
+  // Ouvrir modal d'édition
+  alert('Édition de l\'événement #' + eventId);
+}
+
+function viewStats(eventId) {
+  // Rediriger vers les statistiques
+  window.location.href = '/provider/analytics?event=' + eventId;
+}
+
+function deleteEvent(eventId) {
+  if (confirm('Êtes-vous sûr de vouloir supprimer cet événement ?')) {
+    // Appel API pour supprimer
+    alert('Événement #' + eventId + ' supprimé');
+  }
+}
+
+function publishEvent(eventId) {
+  if (confirm('Êtes-vous sûr de vouloir publier cet événement ?')) {
+    // Appel API pour publier
+    alert('Événement #' + eventId + ' publié');
+  }
+}
+
+function createEvent() {
+  const form = document.getElementById('createEventForm');
+  const formData = new FormData(form);
+  
+  // Simulation de création
+  alert('Événement créé avec succès !');
+  bootstrap.Modal.getInstance(document.getElementById('createEventModal')).hide();
+  form.reset();
+}
+
+function resetFilters() {
+  document.getElementById('searchEvents').value = '';
+  document.getElementById('filterStatus').value = '';
+  document.getElementById('filterCategory').value = '';
+}
+
+// Recherche en temps réel
+document.getElementById('searchEvents').addEventListener('input', function() {
+  const searchTerm = this.value.toLowerCase();
+  // Implémentation de la recherche
+  console.log('Recherche:', searchTerm);
+});
+
+// Filtres
+document.getElementById('filterStatus').addEventListener('change', function() {
+  console.log('Filtre statut:', this.value);
+});
+
+document.getElementById('filterCategory').addEventListener('change', function() {
+  console.log('Filtre catégorie:', this.value);
+});
+</script>

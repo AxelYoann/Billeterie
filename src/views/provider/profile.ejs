@@ -1,0 +1,440 @@
+<%- include('../layouts/main', { page: 'provider/profile' }) %>
+
+<script>
+// Contenu de la page profile provider sera injecté ici
+</script>
+
+<div class="container-fluid py-4">
+  <!-- Header -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <h1 class="h3 mb-0">
+        <i class="fas fa-user-edit text-primary me-2"></i>
+        Profil Prestataire
+      </h1>
+      <p class="text-muted mb-0">Gérez vos informations de prestataire</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Informations générales -->
+    <div class="col-lg-8">
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="card-title mb-0">
+            <i class="fas fa-info-circle me-2"></i>
+            Informations Générales
+          </h5>
+        </div>
+        <div class="card-body">
+          <form id="providerProfileForm">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Nom de l'entreprise *</label>
+                <input type="text" class="form-control" name="companyName" value="<%= user.companyName || '' %>" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Nom du contact *</label>
+                <input type="text" class="form-control" name="contactName" value="<%= user.firstName %> <%= user.lastName %>" required>
+              </div>
+              
+              <div class="col-md-6">
+                <label class="form-label">Email *</label>
+                <input type="email" class="form-control" name="email" value="<%= user.email %>" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Téléphone</label>
+                <input type="tel" class="form-control" name="phone" value="<%= user.phone || '' %>">
+              </div>
+              
+              <div class="col-12">
+                <label class="form-label">Description de l'entreprise</label>
+                <textarea class="form-control" name="description" rows="4" placeholder="Décrivez votre entreprise et vos activités..."><%= user.description || '' %></textarea>
+              </div>
+              
+              <div class="col-md-6">
+                <label class="form-label">Site web</label>
+                <input type="url" class="form-control" name="website" value="<%= user.website || '' %>" placeholder="https://www.example.com">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">SIRET</label>
+                <input type="text" class="form-control" name="siret" value="<%= user.siret || '' %>" placeholder="12345678901234">
+              </div>
+            </div>
+            
+            <div class="mt-4">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save me-2"></i>
+                Sauvegarder
+              </button>
+              <button type="reset" class="btn btn-outline-secondary ms-2">
+                <i class="fas fa-undo me-2"></i>
+                Annuler
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      <!-- Adresse -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="card-title mb-0">
+            <i class="fas fa-map-marker-alt me-2"></i>
+            Adresse
+          </h5>
+        </div>
+        <div class="card-body">
+          <form id="addressForm">
+            <div class="row g-3">
+              <div class="col-12">
+                <label class="form-label">Adresse</label>
+                <input type="text" class="form-control" name="address" value="<%= user.address || '' %>" placeholder="123 rue de la République">
+              </div>
+              
+              <div class="col-md-6">
+                <label class="form-label">Code postal</label>
+                <input type="text" class="form-control" name="postalCode" value="<%= user.postalCode || '' %>" placeholder="75001">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Ville</label>
+                <input type="text" class="form-control" name="city" value="<%= user.city || '' %>" placeholder="Paris">
+              </div>
+              
+              <div class="col-md-6">
+                <label class="form-label">Région</label>
+                <input type="text" class="form-control" name="region" value="<%= user.region || '' %>" placeholder="Île-de-France">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Pays</label>
+                <select class="form-select" name="country">
+                  <option value="FR" <%= (user.country === 'FR') ? 'selected' : '' %>>France</option>
+                  <option value="BE" <%= (user.country === 'BE') ? 'selected' : '' %>>Belgique</option>
+                  <option value="CH" <%= (user.country === 'CH') ? 'selected' : '' %>>Suisse</option>
+                  <option value="CA" <%= (user.country === 'CA') ? 'selected' : '' %>>Canada</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="mt-4">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save me-2"></i>
+                Sauvegarder l'adresse
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-lg-4">
+      <!-- Photo de profil -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="card-title mb-0">
+            <i class="fas fa-image me-2"></i>
+            Photo de profil
+          </h5>
+        </div>
+        <div class="card-body text-center">
+          <div class="avatar-upload mb-3">
+            <div class="avatar-preview">
+              <img id="profileImage" src="<%= user.avatar || 'https://via.placeholder.com/150x150/007bff/ffffff?text=' + (user.firstName ? user.firstName.charAt(0) : 'U') %>" 
+                   alt="Avatar" class="rounded-circle" width="150" height="150">
+            </div>
+          </div>
+          <div class="avatar-edit">
+            <input type="file" id="imageUpload" accept="image/*" style="display: none">
+            <label for="imageUpload" class="btn btn-outline-primary btn-sm">
+              <i class="fas fa-camera me-1"></i>
+              Changer la photo
+            </label>
+          </div>
+          <small class="text-muted d-block mt-2">
+            Formats acceptés: JPG, PNG<br>
+            Taille max: 2MB
+          </small>
+        </div>
+      </div>
+
+      <!-- Statistiques -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="card-title mb-0">
+            <i class="fas fa-chart-bar me-2"></i>
+            Vos Statistiques
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="row text-center">
+            <div class="col-6 border-end">
+              <h4 class="text-primary mb-0">12</h4>
+              <small class="text-muted">Événements</small>
+            </div>
+            <div class="col-6">
+              <h4 class="text-success mb-0">847</h4>
+              <small class="text-muted">Tickets vendus</small>
+            </div>
+          </div>
+          <hr>
+          <div class="row text-center">
+            <div class="col-6 border-end">
+              <h4 class="text-warning mb-0">4.8</h4>
+              <small class="text-muted">Note moyenne</small>
+            </div>
+            <div class="col-6">
+              <h4 class="text-info mb-0">73%</h4>
+              <small class="text-muted">Taux remplissage</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions rapides -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="card-title mb-0">
+            <i class="fas fa-bolt me-2"></i>
+            Actions Rapides
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="d-grid gap-2">
+            <a href="/provider/events" class="btn btn-outline-primary btn-sm">
+              <i class="fas fa-plus me-2"></i>
+              Créer un événement
+            </a>
+            <a href="/provider/analytics" class="btn btn-outline-success btn-sm">
+              <i class="fas fa-chart-line me-2"></i>
+              Voir les analytics
+            </a>
+            <a href="/provider/dashboard" class="btn btn-outline-info btn-sm">
+              <i class="fas fa-tachometer-alt me-2"></i>
+              Dashboard
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paramètres de sécurité -->
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">
+            <i class="fas fa-shield-alt me-2"></i>
+            Sécurité
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="d-grid gap-2">
+            <button type="button" class="btn btn-outline-warning btn-sm" data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+              <i class="fas fa-key me-2"></i>
+              Changer le mot de passe
+            </button>
+            <button type="button" class="btn btn-outline-info btn-sm">
+              <i class="fas fa-mobile-alt me-2"></i>
+              Authentification 2FA
+            </button>
+          </div>
+          
+          <hr class="my-3">
+          
+          <div class="text-muted small">
+            <p class="mb-1">
+              <i class="fas fa-clock me-1"></i>
+              Dernière connexion: <strong>Aujourd'hui 14:32</strong>
+            </p>
+            <p class="mb-0">
+              <i class="fas fa-map-marker-alt me-1"></i>
+              Depuis: <strong>Paris, France</strong>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal changement de mot de passe -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          <i class="fas fa-key me-2"></i>
+          Changer le Mot de Passe
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="changePasswordForm">
+          <div class="mb-3">
+            <label class="form-label">Mot de passe actuel *</label>
+            <input type="password" class="form-control" name="currentPassword" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Nouveau mot de passe *</label>
+            <input type="password" class="form-control" name="newPassword" required>
+            <div class="form-text">
+              Minimum 8 caractères avec au moins une majuscule, une minuscule et un chiffre
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Confirmer le nouveau mot de passe *</label>
+            <input type="password" class="form-control" name="confirmPassword" required>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-primary" onclick="changePassword()">
+          <i class="fas fa-save me-2"></i>
+          Changer le mot de passe
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Gestion du formulaire de profil
+document.getElementById('providerProfileForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  // Simulation de sauvegarde
+  const formData = new FormData(this);
+  console.log('Sauvegarde du profil:', Object.fromEntries(formData));
+  
+  // Afficher une notification de succès
+  showNotification('Profil mis à jour avec succès!', 'success');
+});
+
+// Gestion du formulaire d'adresse
+document.getElementById('addressForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  const formData = new FormData(this);
+  console.log('Sauvegarde de l\'adresse:', Object.fromEntries(formData));
+  
+  showNotification('Adresse mise à jour avec succès!', 'success');
+});
+
+// Upload d'image
+document.getElementById('imageUpload').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById('profileImage').src = e.target.result;
+      showNotification('Photo mise à jour!', 'success');
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+// Changement de mot de passe
+function changePassword() {
+  const form = document.getElementById('changePasswordForm');
+  const formData = new FormData(form);
+  
+  if (formData.get('newPassword') !== formData.get('confirmPassword')) {
+    showNotification('Les mots de passe ne correspondent pas!', 'error');
+    return;
+  }
+  
+  // Simulation du changement de mot de passe
+  console.log('Changement de mot de passe');
+  
+  // Fermer la modal
+  bootstrap.Modal.getInstance(document.getElementById('changePasswordModal')).hide();
+  form.reset();
+  
+  showNotification('Mot de passe changé avec succès!', 'success');
+}
+
+// Fonction utilitaire pour afficher les notifications
+function showNotification(message, type = 'info') {
+  const alertClass = type === 'success' ? 'alert-success' : 
+                     type === 'error' ? 'alert-danger' : 'alert-info';
+  
+  const notification = document.createElement('div');
+  notification.className = `alert ${alertClass} alert-dismissible fade show position-fixed`;
+  notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+  notification.innerHTML = `
+    ${message}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  `;
+  
+  document.body.appendChild(notification);
+  
+  // Auto-remove après 5 secondes
+  setTimeout(() => {
+    if (notification.parentNode) {
+      notification.remove();
+    }
+  }, 5000);
+}
+
+// Validation en temps réel
+document.querySelectorAll('input[type="email"]').forEach(input => {
+  input.addEventListener('blur', function() {
+    if (this.value && !this.validity.valid) {
+      this.classList.add('is-invalid');
+    } else {
+      this.classList.remove('is-invalid');
+    }
+  });
+});
+
+document.querySelectorAll('input[type="url"]').forEach(input => {
+  input.addEventListener('blur', function() {
+    if (this.value && !this.validity.valid) {
+      this.classList.add('is-invalid');
+    } else {
+      this.classList.remove('is-invalid');
+    }
+  });
+});
+</script>
+
+<style>
+.avatar-upload {
+  position: relative;
+  max-width: 200px;
+  margin: 0 auto;
+}
+
+.avatar-preview img {
+  border: 3px solid #007bff;
+  transition: all 0.3s ease;
+}
+
+.avatar-preview img:hover {
+  transform: scale(1.05);
+}
+
+.border-end {
+  border-right: 1px solid #dee2e6 !important;
+}
+
+.card-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.alert {
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 500;
+}
+
+.is-invalid {
+  border-color: #dc3545 !important;
+}
+</style>

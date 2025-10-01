@@ -4,13 +4,16 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
 const dotenv = require('dotenv');
+const cookieParser = require('cookie-parser');
 
 const connectDB = require('./config/database');
 const errorHandler = require('./middleware/errorHandler');
+const { extractUserFromToken, requireAuth, requireProvider, redirectIfAuthenticated } = require('./middleware/auth');
 
 // Import routes
 const authRoutes = require('./routes/auth');
 const providerRoutes = require('./routes/providers');
+const providerWebRoutes = require('./routes/provider');
 const eventRoutes = require('./routes/events');
 const ticketRoutes = require('./routes/tickets');
 const userRoutes = require('./routes/users');
@@ -38,6 +41,10 @@ app.use(limiter);
 // Body parsing middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+// Middleware pour extraire l'utilisateur du token dans toutes les vues
+app.use(extractUserFromToken);
 
 // Static files
 app.use(express.static(path.join(__dirname, '../public')));
@@ -53,48 +60,86 @@ app.use('/api/events', eventRoutes);
 app.use('/api/tickets', ticketRoutes);
 app.use('/api/users', userRoutes);
 
+// Routes web prestataires
+app.use('/provider', providerWebRoutes);
+
 // View routes
 app.get('/', (req, res) => {
   res.render('index', {
     title: 'Accueil',
+    page: 'index',
     message: 'Bienvenue sur la plateforme de multi-billeterie'
   });
 });
 
-app.get('/auth/login', (req, res) => {
-  res.render('login', { title: 'Connexion' });
+app.get('/auth/login', redirectIfAuthenticated, (req, res) => {
+  res.render('login', { 
+    title: 'Connexion',
+    page: 'login'
+  });
 });
 
-app.get('/auth/register', (req, res) => {
-  res.render('register', { title: 'Inscription' });
+app.get('/auth/register', redirectIfAuthenticated, (req, res) => {
+  res.render('register', { 
+    title: 'Inscription',
+    page: 'register'
+  });
 });
 
-app.get('/dashboard', (req, res) => {
-  res.render('dashboard', { title: 'Tableau de bord' });
+app.get('/auth/logout', (req, res) => {
+  res.clearCookie('authToken');
+  res.redirect('/?message=Déconnexion réussie');
+});
+
+app.get('/dashboard', requireAuth, (req, res) => {
+  res.render('dashboard', { 
+    title: 'Tableau de bord',
+    page: 'dashboard'
+  });
 });
 
 app.get('/events', (req, res) => {
-  res.render('events', { title: 'Événements' });
+  res.render('events', { 
+    title: 'Événements',
+    page: 'events'
+  });
 });
 
 app.get('/providers', (req, res) => {
-  res.render('providers', { title: 'Prestataires' });
+  res.render('providers', { 
+    title: 'Prestataires',
+    page: 'providers'
+  });
 });
 
-app.get('/tickets', (req, res) => {
-  res.render('tickets', { title: 'Mes tickets' });
+app.get('/tickets', requireAuth, (req, res) => {
+  res.render('tickets', { 
+    title: 'Mes tickets',
+    page: 'tickets'
+  });
 });
 
-app.get('/profile', (req, res) => {
-  res.render('profile', { title: 'Mon profil' });
+app.get('/profile', requireAuth, (req, res) => {
+  res.render('profile', { 
+    title: 'Mon profil',
+    page: 'profile'
+  });
 });
+
+// Les routes prestataires sont maintenant gérées par /provider dans providerWebRoutes
 
 app.get('/admin', (req, res) => {
-  res.render('admin', { title: 'Administration Prestataire' });
+  res.render('admin', { 
+    title: 'Administration Prestataire',
+    page: 'admin'
+  });
 });
 
 app.get('/contact', (req, res) => {
-  res.render('contact', { title: 'Contact' });
+  res.render('contact', { 
+    title: 'Contact',
+    page: 'contact'
+  });
 });
 
 // Health check

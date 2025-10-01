@@ -1,5 +1,5 @@
 const { validationResult } = require('express-validator');
-const User = require('../models/User');
+const memoryDB = require('../services/memoryDatabase');
 const asyncHandler = require('../utils/asyncHandler');
 const sendResponse = require('../utils/sendResponse');
 
@@ -14,38 +14,43 @@ const register = asyncHandler(async (req, res) => {
     return sendResponse(res, 400, false, 'Données invalides', null, errors.array());
   }
 
-  const { firstName, lastName, email, password, role, phone } = req.body;
+  const { firstName, lastName, email, password, role, phone, companyName } = req.body;
 
-  // Check if user exists
-  const existingUser = await User.findOne({ email });
-  if (existingUser) {
-    return sendResponse(res, 400, false, 'Un utilisateur avec cet email existe déjà');
-  }
+  try {
+    // Utiliser la base de données mémoire
+    const result = await memoryDB.registerUser({
+      firstName,
+      lastName,
+      email,
+      password,
+      role: role || 'client',
+      phone,
+      companyName
+    });
 
-  // Create user
-  const user = await User.create({
-    firstName,
-    lastName,
-    email,
-    password,
-    role: role || 'client',
-    phone
-  });
+    // Définir le cookie d'authentification
+    res.cookie('authToken', result.token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 24 * 60 * 60 * 1000 // 24 heures
+    });
 
-  // Generate token
-  const token = user.getSignedJwtToken();
-
-  sendResponse(res, 201, true, 'Utilisateur créé avec succès', {
-    token,
-    user: {
-      id: user._id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      role: user.role,
-      fullName: user.fullName
+    sendResponse(res, 201, true, 'Utilisateur créé avec succès', {
+      token: result.token,
+      user: {
+        id: result.user._id,
+        firstName: result.user.firstName,
+        lastName: result.user.lastName,
+        email: result.user.email,
+        role: result.user.role
+      }
+    });
+  } catch (error) {
+    if (error.message === 'Cet email est déjà utilisé') {
+      return sendResponse(res, 400, false, error.message);
     }
-  });
+    throw error;
+  }
 });
 
 /**
@@ -61,41 +66,34 @@ const login = asyncHandler(async (req, res) => {
 
   const { email, password } = req.body;
 
-  // Find user with password
-  const user = await User.findOne({ email }).select('+password');
-  if (!user) {
-    return sendResponse(res, 401, false, 'Email ou mot de passe incorrect');
-  }
-
-  // Check if user is active
-  if (!user.isActive) {
-    return sendResponse(res, 401, false, 'Compte désactivé. Contactez l\'administrateur');
-  }
-
-  // Check password
-  const isMatch = await user.matchPassword(password);
-  if (!isMatch) {
-    return sendResponse(res, 401, false, 'Email ou mot de passe incorrect');
-  }
-
-  // Update last login
-  await user.updateLastLogin();
-
-  // Generate token
-  const token = user.getSignedJwtToken();
-
-  sendResponse(res, 200, true, 'Connexion réussie', {
-    token,
-    user: {
-      id: user._id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      role: user.role,
-      fullName: user.fullName,
-      lastLogin: user.lastLogin
+  try {
+    // Utiliser la base de données mémoire
+    const result = await memoryDB.authenticateUser(email, password);
+    
+    if (!result) {
+      return sendResponse(res, 401, false, 'Email ou mot de passe incorrect');
     }
-  });
+
+    // Définir le cookie d'authentification
+    res.cookie('authToken', result.token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 24 * 60 * 60 * 1000 // 24 heures
+    });
+
+    sendResponse(res, 200, true, 'Connexion réussie', {
+      token: result.token,
+      user: {
+        id: result.user._id,
+        firstName: result.user.firstName,
+        lastName: result.user.lastName,
+        email: result.user.email,
+        role: result.user.role
+      }
+    });
+  } catch (error) {
+    return sendResponse(res, 401, false, 'Erreur d\'authentification');
+  }
 });
 
 /**

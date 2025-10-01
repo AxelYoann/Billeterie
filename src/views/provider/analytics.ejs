@@ -1,0 +1,557 @@
+<%- include('../layouts/main', { page: 'provider/analytics' }) %>
+
+<script>
+// Contenu de la page analytics provider sera injecté ici
+</script>
+
+<div class="container-fluid py-4">
+  <!-- Header -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h1 class="h3 mb-0">
+            <i class="fas fa-chart-line text-primary me-2"></i>
+            Analytics & Rapports
+          </h1>
+          <p class="text-muted mb-0">Analysez les performances de vos événements</p>
+        </div>
+        <div>
+          <button class="btn btn-outline-primary me-2">
+            <i class="fas fa-download me-2"></i>
+            Exporter PDF
+          </button>
+          <div class="btn-group">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+              <i class="fas fa-calendar me-2"></i>
+              Cette semaine
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Aujourd'hui</a></li>
+              <li><a class="dropdown-item" href="#">Cette semaine</a></li>
+              <li><a class="dropdown-item" href="#">Ce mois</a></li>
+              <li><a class="dropdown-item" href="#">3 derniers mois</a></li>
+              <li><a class="dropdown-item" href="#">Cette année</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KPIs principaux -->
+  <div class="row mb-4">
+    <div class="col-xl-3 col-md-6 mb-3">
+      <div class="card border-left-primary">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                Revenus Totaux
+              </div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">
+                <span id="total-revenue-kpi">€12,847</span>
+              </div>
+              <div class="small text-success">
+                <i class="fas fa-arrow-up"></i> +12.5% vs mois dernier
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-euro-sign fa-2x text-primary"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-3">
+      <div class="card border-left-success">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                Tickets Vendus
+              </div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">
+                <span id="tickets-sold-kpi">847</span>
+              </div>
+              <div class="small text-success">
+                <i class="fas fa-arrow-up"></i> +8.2% vs mois dernier
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-ticket-alt fa-2x text-success"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-3">
+      <div class="card border-left-info">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                Taux de Remplissage
+              </div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">
+                <span id="fill-rate-kpi">73%</span>
+              </div>
+              <div class="progress mt-2" style="height: 4px;">
+                <div class="progress-bar bg-info" role="progressbar" style="width: 73%"></div>
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-percentage fa-2x text-info"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-3">
+      <div class="card border-left-warning">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                Prix Moyen
+              </div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">
+                <span id="avg-price-kpi">€15.17</span>
+              </div>
+              <div class="small text-warning">
+                <i class="fas fa-arrow-down"></i> -2.1% vs mois dernier
+              </div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-tags fa-2x text-warning"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Graphique des ventes dans le temps -->
+    <div class="col-xl-8 col-lg-7">
+      <div class="card mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+          <h6 class="m-0 font-weight-bold text-primary">
+            <i class="fas fa-chart-area me-2"></i>
+            Évolution des Ventes
+          </h6>
+          <div class="dropdown no-arrow">
+            <a class="dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+              <i class="fas fa-ellipsis-v text-gray-400"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right shadow">
+              <a class="dropdown-item" href="#">Exporter données</a>
+              <a class="dropdown-item" href="#">Voir détails</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="chart-area">
+            <canvas id="revenueChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Répartition par catégorie -->
+    <div class="col-xl-4 col-lg-5">
+      <div class="card mb-4">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">
+            <i class="fas fa-chart-pie me-2"></i>
+            Répartition par Catégorie
+          </h6>
+        </div>
+        <div class="card-body">
+          <div class="chart-pie pt-4 pb-2">
+            <canvas id="categoryChart"></canvas>
+          </div>
+          <div class="mt-4 text-center small">
+            <span class="mr-2">
+              <i class="fas fa-circle text-primary"></i> Concert
+            </span>
+            <span class="mr-2">
+              <i class="fas fa-circle text-success"></i> Théâtre
+            </span>
+            <span class="mr-2">
+              <i class="fas fa-circle text-info"></i> Conférence
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Top événements -->
+    <div class="col-lg-6 mb-4">
+      <div class="card">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">
+            <i class="fas fa-trophy me-2"></i>
+            Top Événements
+          </h6>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-borderless">
+              <thead>
+                <tr>
+                  <th>Événement</th>
+                  <th>Ventes</th>
+                  <th>Revenus</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <div class="avatar-sm bg-primary rounded-circle d-flex align-items-center justify-content-center me-3">
+                        <i class="fas fa-music text-white"></i>
+                      </div>
+                      <div>
+                        <h6 class="mb-0">Concert Jazz</h6>
+                        <small class="text-muted">15 Nov 2025</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge bg-success">67/100</span>
+                  </td>
+                  <td>
+                    <strong>€2,010</strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <div class="avatar-sm bg-success rounded-circle d-flex align-items-center justify-content-center me-3">
+                        <i class="fas fa-theater-masks text-white"></i>
+                      </div>
+                      <div>
+                        <h6 class="mb-0">Théâtre</h6>
+                        <small class="text-muted">22 Nov 2025</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge bg-warning">34/80</span>
+                  </td>
+                  <td>
+                    <strong>€850</strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <div class="avatar-sm bg-info rounded-circle d-flex align-items-center justify-content-center me-3">
+                        <i class="fas fa-microphone text-white"></i>
+                      </div>
+                      <div>
+                        <h6 class="mb-0">Conférence Tech</h6>
+                        <small class="text-muted">05 Déc 2025</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="badge bg-secondary">0/150</span>
+                  </td>
+                  <td>
+                    <strong>€0</strong>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Analyse temporelle -->
+    <div class="col-lg-6 mb-4">
+      <div class="card">
+        <div class="card-header py-3">
+          <h6 class="m-0 font-weight-bold text-primary">
+            <i class="fas fa-clock me-2"></i>
+            Analyse Temporelle
+          </h6>
+        </div>
+        <div class="card-body">
+          <div class="row text-center">
+            <div class="col-6 border-right">
+              <div class="h5 mb-0 font-weight-bold text-primary">387</div>
+              <div class="text-uppercase text-muted small">Ventes Matin</div>
+              <div class="small text-muted">(8h-12h)</div>
+            </div>
+            <div class="col-6">
+              <div class="h5 mb-0 font-weight-bold text-success">460</div>
+              <div class="text-uppercase text-muted small">Ventes Soir</div>
+              <div class="small text-muted">(18h-22h)</div>
+            </div>
+          </div>
+          <hr>
+          <div class="chart-bar mt-4">
+            <canvas id="timeAnalysisChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tableau détaillé -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header py-3 d-flex justify-content-between align-items-center">
+          <h6 class="m-0 font-weight-bold text-primary">
+            <i class="fas fa-table me-2"></i>
+            Rapport Détaillé des Événements
+          </h6>
+          <button class="btn btn-sm btn-outline-primary">
+            <i class="fas fa-download me-1"></i>
+            Exporter CSV
+          </button>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable">
+              <thead>
+                <tr>
+                  <th>Événement</th>
+                  <th>Date</th>
+                  <th>Catégorie</th>
+                  <th>Lieu</th>
+                  <th>Prix</th>
+                  <th>Capacité</th>
+                  <th>Vendus</th>
+                  <th>Taux</th>
+                  <th>Revenus</th>
+                  <th>Statut</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Concert Jazz Fusion</td>
+                  <td>15/11/2025</td>
+                  <td><span class="badge bg-primary">Concert</span></td>
+                  <td>Salle Mozart, Paris</td>
+                  <td>€30.00</td>
+                  <td>100</td>
+                  <td>67</td>
+                  <td>67%</td>
+                  <td>€2,010</td>
+                  <td><span class="badge bg-success">Actif</span></td>
+                </tr>
+                <tr>
+                  <td>Théâtre Contemporain</td>
+                  <td>22/11/2025</td>
+                  <td><span class="badge bg-success">Théâtre</span></td>
+                  <td>Scène Principale, Lyon</td>
+                  <td>€25.00</td>
+                  <td>80</td>
+                  <td>34</td>
+                  <td>42.5%</td>
+                  <td>€850</td>
+                  <td><span class="badge bg-warning">Bientôt</span></td>
+                </tr>
+                <tr>
+                  <td>Conférence Tech 2025</td>
+                  <td>05/12/2025</td>
+                  <td><span class="badge bg-info">Conférence</span></td>
+                  <td>Centre Congrès, Marseille</td>
+                  <td>€15.00</td>
+                  <td>150</td>
+                  <td>0</td>
+                  <td>0%</td>
+                  <td>€0</td>
+                  <td><span class="badge bg-secondary">Brouillon</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Graphique des revenus
+  const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+  const revenueChart = new Chart(revenueCtx, {
+    type: 'line',
+    data: {
+      labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul', 'Aoû', 'Sep', 'Oct'],
+      datasets: [{
+        label: 'Revenus (€)',
+        data: [800, 1200, 900, 1500, 1100, 1800, 1400, 2100, 1700, 2400],
+        borderColor: 'rgb(54, 162, 235)',
+        backgroundColor: 'rgba(54, 162, 235, 0.1)',
+        tension: 0.4,
+        fill: true
+      }, {
+        label: 'Tickets vendus',
+        data: [40, 60, 45, 75, 55, 90, 70, 105, 85, 120],
+        borderColor: 'rgb(75, 192, 192)',
+        backgroundColor: 'rgba(75, 192, 192, 0.1)',
+        tension: 0.4,
+        fill: false,
+        yAxisID: 'y1'
+      }]
+    },
+    options: {
+      responsive: true,
+      interaction: {
+        mode: 'index',
+        intersect: false,
+      },
+      scales: {
+        y: {
+          type: 'linear',
+          display: true,
+          position: 'left',
+          title: {
+            display: true,
+            text: 'Revenus (€)'
+          }
+        },
+        y1: {
+          type: 'linear',
+          display: true,
+          position: 'right',
+          title: {
+            display: true,  
+            text: 'Tickets vendus'
+          },
+          grid: {
+            drawOnChartArea: false,
+          },
+        }
+      }
+    }
+  });
+
+  // Graphique en secteurs des catégories
+  const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+  const categoryChart = new Chart(categoryCtx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Concert', 'Théâtre', 'Conférence', 'Sport'],
+      datasets: [{
+        data: [45, 25, 20, 10],
+        backgroundColor: [
+          'rgb(54, 162, 235)',
+          'rgb(75, 192, 192)', 
+          'rgb(255, 205, 86)',
+          'rgb(255, 99, 132)'
+        ],
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: false
+        }
+      }
+    }
+  });
+
+  // Graphique analyse temporelle
+  const timeCtx = document.getElementById('timeAnalysisChart').getContext('2d');
+  const timeChart = new Chart(timeCtx, {
+    type: 'bar',
+    data: {
+      labels: ['8h-12h', '12h-16h', '16h-20h', '20h-24h'],
+      datasets: [{
+        label: 'Ventes par tranche horaire',
+        data: [387, 234, 460, 123],
+        backgroundColor: [
+          'rgba(54, 162, 235, 0.8)',
+          'rgba(75, 192, 192, 0.8)',
+          'rgba(255, 205, 86, 0.8)',
+          'rgba(255, 99, 132, 0.8)'
+        ],
+        borderColor: [
+          'rgb(54, 162, 235)',
+          'rgb(75, 192, 192)',
+          'rgb(255, 205, 86)',
+          'rgb(255, 99, 132)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: false
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+});
+</script>
+
+<style>
+.border-left-primary {
+  border-left: 0.25rem solid #4e73df !important;
+}
+
+.border-left-success {
+  border-left: 0.25rem solid #1cc88a !important;
+}
+
+.border-left-info {
+  border-left: 0.25rem solid #36b9cc !important;
+}
+
+.border-left-warning {
+  border-left: 0.25rem solid #f6c23e !important;
+}
+
+.text-xs {
+  font-size: 0.7rem;
+}
+
+.avatar-sm {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.border-right {
+  border-right: 1px solid #e3e6f0 !important;
+}
+
+.chart-area {
+  position: relative;
+  height: 300px;
+}
+
+.chart-pie {
+  position: relative;
+  height: 200px;
+}
+
+.chart-bar {
+  position: relative;
+  height: 150px;
+}
+</style>

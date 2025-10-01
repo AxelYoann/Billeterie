@@ -21,8 +21,8 @@ Ce fichier permet de tester que GitHub Pages fonctionne correctement.
 3. Vérifier que le site est accessible
 
 ### URLs de Test
-- Landing page : `https://your-username.github.io/multi-billeterie/`
-- Documentation : `https://your-username.github.io/multi-billeterie/docs/`
+- Landing page : `https://AxelYoann.github.io/Billeterie/`
+- Documentation : `https://AxelYoann.github.io/Billeterie/docs/`
 - Health check : `https://your-app.herokuapp.com/health` (si Heroku)
 
 ## 🔧 Commandes de Déploiement
@@ -37,7 +37,7 @@ git push origin main
 # Aller dans Actions → Deploy to GitHub Pages
 
 # 3. Accéder au site
-# https://your-username.github.io/multi-billeterie/
+# https://AxelYoann.github.io/Billeterie/
 ```
 
 ## 🎯 Features de la Landing Page
@@ -70,7 +70,7 @@ git push origin main
 ## 🚀 Prochaines Étapes
 
 1. **Personnaliser** :
-   - Remplacer `your-username` par votre username GitHub
+   - Remplacer `AxelYoann` par votre username GitHub
    - Ajouter de vraies captures d'écran
    - Personnaliser les couleurs et le branding
 

@@ -1,0 +1,409 @@
+<%- include('../layouts/main', { page: 'provider/dashboard' }) %>
+
+<script>
+// Contenu de la page dashboard provider sera injecté ici
+</script>
+
+<div class="container-fluid py-4">
+  <!-- Header avec statistiques -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h1 class="h3 mb-0">
+            <i class="fas fa-chart-bar text-primary me-2"></i>
+            Dashboard Prestataire
+          </h1>
+          <p class="text-muted mb-0">Bienvenue <%= user.firstName %>, voici un aperçu de votre activité</p>
+        </div>
+        <div>
+          <a href="/provider/events" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i>
+            Nouvel Événement
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cartes de statistiques -->
+  <div class="row mb-4">
+    <div class="col-md-3 mb-3">
+      <div class="card bg-primary text-white">
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div>
+              <h6 class="card-title mb-0">Événements</h6>
+              <h2 class="mb-0" id="total-events">12</h2>
+              <small>Total créés</small>
+            </div>
+            <div class="align-self-center">
+              <i class="fas fa-calendar-alt fa-2x opacity-75"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-3 mb-3">
+      <div class="card bg-success text-white">
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div>
+              <h6 class="card-title mb-0">Tickets Vendus</h6>
+              <h2 class="mb-0" id="total-tickets">247</h2>
+              <small>Ce mois</small>
+            </div>
+            <div class="align-self-center">
+              <i class="fas fa-ticket-alt fa-2x opacity-75"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-3 mb-3">
+      <div class="card bg-warning text-white">
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div>
+              <h6 class="card-title mb-0">Revenus</h6>
+              <h2 class="mb-0" id="total-revenue">4,870€</h2>
+              <small>Ce mois</small>
+            </div>
+            <div class="align-self-center">
+              <i class="fas fa-euro-sign fa-2x opacity-75"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-3 mb-3">
+      <div class="card bg-info text-white">
+        <div class="card-body">
+          <div class="d-flex justify-content-between">
+            <div>
+              <h6 class="card-title mb-0">Clients</h6>
+              <h2 class="mb-0" id="total-clients">89</h2>
+              <small>Actifs</small>
+            </div>
+            <div class="align-self-center">
+              <i class="fas fa-users fa-2x opacity-75"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Graphique des ventes -->
+    <div class="col-lg-8 mb-4">
+      <div class="card">
+        <div class="card-header bg-white">
+          <h5 class="card-title mb-0">
+            <i class="fas fa-chart-line me-2"></i>
+            Évolution des Ventes
+          </h5>
+        </div>
+        <div class="card-body">
+          <canvas id="salesChart" width="400" height="200"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions rapides -->
+    <div class="col-lg-4 mb-4">
+      <div class="card">
+        <div class="card-header bg-white">
+          <h5 class="card-title mb-0">
+            <i class="fas fa-bolt me-2"></i>
+            Actions Rapides
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="d-grid gap-2">
+            <a href="/provider/events" class="btn btn-outline-primary">
+              <i class="fas fa-plus me-2"></i>
+              Créer un Événement
+            </a>
+            <a href="/provider/analytics" class="btn btn-outline-success">
+              <i class="fas fa-chart-bar me-2"></i>
+              Voir Analytics
+            </a>
+            <a href="/provider/profile" class="btn btn-outline-info">
+              <i class="fas fa-user-edit me-2"></i>
+              Modifier Profil
+            </a>
+            <a href="/tickets" class="btn btn-outline-warning">
+              <i class="fas fa-ticket-alt me-2"></i>
+              Gérer les Tickets
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Événements récents et statistiques -->
+  <div class="row">
+    <!-- Derniers événements -->
+    <div class="col-lg-6 mb-4">
+      <div class="card">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+          <h5 class="card-title mb-0">
+            <i class="fas fa-calendar me-2"></i>
+            Derniers Événements
+          </h5>
+          <a href="/provider/events" class="btn btn-sm btn-outline-primary">Voir tout</a>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Événement</th>
+                  <th>Date</th>
+                  <th>Statut</th>
+                  <th>Ventes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <img src="https://via.placeholder.com/40x40/007bff/ffffff?text=E1" class="rounded me-2" alt="Événement">
+                      <div>
+                        <h6 class="mb-0">Concert Jazz</h6>
+                        <small class="text-muted">Salle Mozart</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <small>15 Nov 2025</small><br>
+                    <small class="text-muted">20h00</small>
+                  </td>
+                  <td>
+                    <span class="badge bg-success">Actif</span>
+                  </td>
+                  <td>
+                    <strong>67/100</strong><br>
+                    <small class="text-muted">tickets</small>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <img src="https://via.placeholder.com/40x40/28a745/ffffff?text=E2" class="rounded me-2" alt="Événement">
+                      <div>
+                        <h6 class="mb-0">Théâtre</h6>
+                        <small class="text-muted">Scène Principale</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <small>22 Nov 2025</small><br>
+                    <small class="text-muted">19h30</small>
+                  </td>
+                  <td>
+                    <span class="badge bg-warning">Bientôt</span>
+                  </td>
+                  <td>
+                    <strong>34/80</strong><br>
+                    <small class="text-muted">tickets</small>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <img src="https://via.placeholder.com/40x40/dc3545/ffffff?text=E3" class="rounded me-2" alt="Événement">
+                      <div>
+                        <h6 class="mb-0">Conférence</h6>
+                        <small class="text-muted">Amphithéâtre</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <small>05 Déc 2025</small><br>
+                    <small class="text-muted">14h00</small>
+                  </td>
+                  <td>
+                    <span class="badge bg-info">Brouillon</span>
+                  </td>
+                  <td>
+                    <strong>0/150</strong><br>
+                    <small class="text-muted">tickets</small>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activité récente -->
+    <div class="col-lg-6 mb-4">
+      <div class="card">
+        <div class="card-header bg-white">
+          <h5 class="card-title mb-0">
+            <i class="fas fa-clock me-2"></i>
+            Activité Récente
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-marker bg-success"></div>
+              <div class="timeline-content">
+                <h6 class="mb-1">Nouveau ticket vendu</h6>
+                <p class="mb-1 text-muted">Concert Jazz - 1 ticket</p>
+                <small class="text-muted">Il y a 2 minutes</small>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-marker bg-primary"></div>
+              <div class="timeline-content">
+                <h6 class="mb-1">Événement créé</h6>
+                <p class="mb-1 text-muted">Conférence Tech 2025</p>
+                <small class="text-muted">Il y a 1 heure</small>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-marker bg-warning"></div>
+              <div class="timeline-content">
+                <h6 class="mb-1">Mise à jour profil</h6>
+                <p class="mb-1 text-muted">Informations de contact</p>
+                <small class="text-muted">Il y a 3 heures</small>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-marker bg-info"></div>
+              <div class="timeline-content">
+                <h6 class="mb-1">5 nouveaux tickets vendus</h6>
+                <p class="mb-1 text-muted">Théâtre - Spectacle du soir</p>
+                <small class="text-muted">Il y a 5 heures</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts pour les graphiques -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Graphique des ventes
+  const ctx = document.getElementById('salesChart').getContext('2d');
+  const salesChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun', 'Jul'],
+      datasets: [{
+        label: 'Ventes (€)',
+        data: [1200, 1900, 800, 2100, 1500, 2800, 2400],
+        borderColor: 'rgb(13, 110, 253)',
+        backgroundColor: 'rgba(13, 110, 253, 0.1)',
+        tension: 0.4,
+        fill: true
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: false
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            callback: function(value) {
+              return value + '€';
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // Animation des compteurs
+  function animateCounter(elementId, targetValue) {
+    const element = document.getElementById(elementId);
+    const increment = targetValue / 50;
+    let current = 0;
+    
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= targetValue) {
+        current = targetValue;
+        clearInterval(timer);
+      }
+      
+      if (elementId === 'total-revenue') {
+        element.textContent = Math.round(current).toLocaleString() + '€';
+      } else {
+        element.textContent = Math.round(current);
+      }
+    }, 30);
+  }
+
+  // Animer les compteurs au chargement
+  animateCounter('total-events', 12);
+  animateCounter('total-tickets', 247);
+  animateCounter('total-revenue', 4870);
+  animateCounter('total-clients', 89);
+});
+</script>
+
+<style>
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #dee2e6;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.timeline-marker {
+  position: absolute;
+  left: -2rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-left: 4px;
+  margin-top: 6px;
+}
+
+.timeline-content {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 0.375rem;
+  border: 1px solid #dee2e6;
+}
+
+.card-body canvas {
+  max-height: 300px;
+}
+
+.opacity-75 {
+  opacity: 0.75 !important;
+}
+</style>
